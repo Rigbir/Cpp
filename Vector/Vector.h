@@ -31,13 +31,13 @@ public:
     void reserve(size_t newCapacity);
     void shrink_to_fit() noexcept;
     void swap(MyVector& other) noexcept;
-
-    int& at(size_t index);
-    const int& at(size_t index) const;
+    
     int& operator[](size_t index) noexcept;
     const int& operator[](size_t index) const noexcept;
-    const int& front() const;
-    const int& back() const;
+    [[nodiscard]] int& at(size_t index);
+    [[nodiscard]] const int& at(size_t index) const;
+    [[nodiscard]] const int& front() const;
+    [[nodiscard]] const int& back() const;
 
     MyVector& operator = (const MyVector& other);
     MyVector& operator = (MyVector&& other) noexcept;
@@ -45,9 +45,9 @@ public:
     bool operator == (const MyVector& other) const;
     bool operator != (const MyVector& other) const;
 
-    size_t size() const noexcept;
-    size_t capacity() const noexcept;
-    bool empty() const noexcept;
+    [[nodiscard]] size_t size() const noexcept;
+    [[nodiscard]] size_t capacity() const noexcept;
+    [[nodiscard]] bool empty() const noexcept;
 
     void print() const noexcept;
 };
