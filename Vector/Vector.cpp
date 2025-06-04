@@ -1,6 +1,5 @@
 #include "Vector.h"
 #include <algorithm>
-#include <complex>
 #include <stdexcept>
 #include <string>
 #include <iostream>
@@ -14,27 +13,27 @@ MyVector::MyVector(size_t size, int value)
         : arr(new int[size * 2])
         , vecSize(size)
         , vecCapacity(size * 2) {
-   std::fill(arr, arr + size, value);
+   std::ranges::fill(arr, arr + size, value);
 }
 
 MyVector::MyVector(std::initializer_list<int> list)
         : arr(new int[list.size() * 2])
         , vecSize(list.size())
         , vecCapacity(list.size() * 2) {
-    std::copy(list.begin(), list.end(), arr);
+    std::ranges::copy(list.begin(), list.end(), arr);
 }
 
 MyVector::MyVector(const MyVector &other)
         : arr(new int[other.vecCapacity])
         , vecSize(other.vecSize)
         , vecCapacity(other.vecCapacity) {
-    std::copy(other.arr, other.arr + other.vecSize, arr);
+    std::ranges::copy(other.arr, other.arr + other.vecSize, arr);
 }
 
 MyVector& MyVector::operator = (const MyVector &other) {
     if (this != &other) {
         int* newArr = new int[other.vecCapacity];
-        std::copy(other.arr, other.arr + other.vecSize, newArr);
+        std::ranges::copy(other.arr, other.arr + other.vecSize, newArr);
 
         delete[] arr;
         arr = newArr;
