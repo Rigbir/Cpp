@@ -2,15 +2,6 @@
 #include <initializer_list>
 
 class MyVector {
-private:
-    int* arr = nullptr;
-    size_t vecSize = 0;
-    size_t vecCapacity = 0;
-
-    void checkEmpty() const;
-    void checkValidIndex(size_t index) const;
-    void reallocate(size_t newCapacity);
-
 public:
     MyVector() = default;
 
@@ -49,4 +40,13 @@ public:
     [[nodiscard]] bool empty() const noexcept;
 
     void print() const noexcept;
+    
+private:
+    int* arr = nullptr;
+    size_t vecSize = 0;
+    size_t vecCapacity = 0;
+
+    void checkEmpty() const;
+    void checkValidIndex(size_t index) const;
+    void reallocate(size_t newCapacity);
 };
