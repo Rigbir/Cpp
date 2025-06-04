@@ -75,4 +75,5 @@ int main() {
     MyVector vec6 = {1, 2, 3};
     vec6.print();
     std::cout << "Size: " << vec6.size() << '\t' << "Capacity: " << vec6.capacity() << '\n' << '\n';
+
 }

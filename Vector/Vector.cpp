@@ -81,7 +81,7 @@ void MyVector::pop_back() {
     --vecSize;
 }
 
-void MyVector::clear() {
+void MyVector::clear() noexcept {
     vecSize = 0;
 }
 
@@ -105,7 +105,7 @@ void MyVector::reserve(size_t newCapacity) {
     reallocate(newCapacity);
 }
 
-void MyVector::shrink_to_fit() {
+void MyVector::shrink_to_fit() noexcept {
     if (vecCapacity > vecSize) {
         vecCapacity = vecSize;
     }
@@ -160,11 +160,11 @@ void MyVector::swap(MyVector& other) noexcept {
     other.vecCapacity = tempVecCapacity;
 }
 
-int& MyVector::operator[](size_t index) {
+int& MyVector::operator[](size_t index) noexcept {
     return arr[index];
 }
 
-const int& MyVector::operator[](size_t index) const {
+const int& MyVector::operator[](size_t index) const noexcept {
     return arr[index];
 }
 
@@ -214,7 +214,7 @@ void MyVector::reallocate(size_t newCapacity) {
     vecCapacity = newCapacity;
 }
 
-void MyVector::print() const {
+void MyVector::print() const noexcept {
     std::cout << "Vector: ";
     for (size_t i = 0; i < vecSize; ++i) {
         std::cout << arr[i] << ' ';

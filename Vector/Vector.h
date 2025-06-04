@@ -26,16 +26,16 @@ public:
     void pop_back();
     void insert(size_t pos, int value);
     void erase(size_t pos);
-    void clear();
+    void clear() noexcept;
     void resize(size_t newSize);
     void reserve(size_t newCapacity);
-    void shrink_to_fit();
+    void shrink_to_fit() noexcept;
     void swap(MyVector& other) noexcept;
 
     int& at(size_t index);
     const int& at(size_t index) const;
-    int& operator[](size_t index);
-    const int& operator[](size_t index) const;
+    int& operator[](size_t index) noexcept;
+    const int& operator[](size_t index) const noexcept;
     const int& front() const;
     const int& back() const;
 
@@ -49,5 +49,5 @@ public:
     size_t capacity() const noexcept;
     bool empty() const noexcept;
 
-    void print() const;
+    void print() const noexcept;
 };
