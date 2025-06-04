@@ -177,6 +177,15 @@ const int& MyVector::back() const {
     return arr[vecSize - 1];
 }
 
+bool MyVector::operator == (const MyVector& other) const {
+    return vecSize == other.vecSize &&
+        std::equal(arr, arr + vecSize, other.arr);
+}
+
+bool MyVector::operator != (const MyVector& other) const {
+    return !(*this == other);
+}
+
 size_t MyVector::size() const noexcept {
     return vecSize;
 }

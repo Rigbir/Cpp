@@ -2,7 +2,6 @@
 #include <iostream>
 
 int main() {
-
     MyVector vec(5, -2);
 
     vec.print();
@@ -76,4 +75,10 @@ int main() {
     vec6.print();
     std::cout << "Size: " << vec6.size() << '\t' << "Capacity: " << vec6.capacity() << '\n' << '\n';
 
+
+    MyVector vec7 = {1, 2, 3};
+    bool equal = vec6 == vec7;
+    bool notEqual = vec6 != vec7;
+    std::cout << "Equal: " << equal << '\n';
+    std::cout << "Equal: " << notEqual << '\n';
 }
