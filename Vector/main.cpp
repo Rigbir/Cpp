@@ -1,7 +1,11 @@
 #include "Vector.h"
 #include <iostream>
+#include <chrono>
 
 int main() {
+
+    auto start = std::chrono::high_resolution_clock::now();
+
     MyVector vec(5, -2);
 
     vec.print();
@@ -81,4 +85,7 @@ int main() {
     bool notEqual = vec6 != vec7;
     std::cout << "Equal: " << equal << '\n';
     std::cout << "Equal: " << notEqual << '\n';
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::cout << std::chrono::duration<double>(end - start).count() << "s\n";
 }

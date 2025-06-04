@@ -40,7 +40,7 @@ public:
     [[nodiscard]] bool empty() const noexcept;
 
     void print() const noexcept;
-    
+
 private:
     int* arr = nullptr;
     size_t vecSize = 0;
