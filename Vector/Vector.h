@@ -14,8 +14,10 @@ private:
 
 public:
     MyVector() = default;
-    MyVector(size_t size, int value);
+
+    explicit MyVector(size_t size, int value);
     MyVector(std::initializer_list<int> list);
+
     MyVector(const MyVector& other);
     MyVector(MyVector&& other) noexcept;
     ~MyVector();
@@ -28,7 +30,7 @@ public:
     void resize(size_t newSize);
     void reserve(size_t newCapacity);
     void shrink_to_fit();
-    void swap(MyVector& other);
+    void swap(MyVector& other) noexcept;
 
     int& at(size_t index);
     const int& at(size_t index) const;
@@ -43,9 +45,9 @@ public:
     bool operator == (const MyVector& other) const;
     bool operator != (const MyVector& other) const;
 
-    size_t size() const;
-    size_t capacity() const;
-    bool empty() const;
+    size_t size() const noexcept;
+    size_t capacity() const noexcept;
+    bool empty() const noexcept;
 
     void print() const;
 };

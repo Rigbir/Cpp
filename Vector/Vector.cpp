@@ -146,7 +146,7 @@ void MyVector::erase(size_t pos) {
     --vecSize;
 }
 
-void MyVector::swap(MyVector& other) {
+void MyVector::swap(MyVector& other) noexcept {
     int* tempArr = arr;
     size_t tempVecSize = vecSize;
     size_t tempVecCapacity = vecCapacity;
@@ -178,17 +178,15 @@ const int& MyVector::back() const {
     return arr[vecSize - 1];
 }
 
-size_t MyVector::size() const {
-    if (empty()) return 0;
+size_t MyVector::size() const noexcept {
     return vecSize;
 }
 
-size_t MyVector::capacity() const {
-    if (empty()) return 0;
+size_t MyVector::capacity() const noexcept {
     return vecCapacity;
 }
 
-bool MyVector::empty() const {
+bool MyVector::empty() const noexcept {
     return vecSize == 0;
 }
 

@@ -3,7 +3,7 @@
 
 int main() {
 
-    MyVector vec(5,-2);
+    MyVector vec(5, -2);
 
     vec.print();
 
@@ -75,5 +75,4 @@ int main() {
     MyVector vec6 = {1, 2, 3};
     vec6.print();
     std::cout << "Size: " << vec6.size() << '\t' << "Capacity: " << vec6.capacity() << '\n' << '\n';
-
 }
