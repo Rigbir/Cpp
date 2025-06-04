@@ -31,7 +31,7 @@ public:
     void reserve(size_t newCapacity);
     void shrink_to_fit() noexcept;
     void swap(MyVector& other) noexcept;
-    
+
     int& operator[](size_t index) noexcept;
     const int& operator[](size_t index) const noexcept;
     [[nodiscard]] int& at(size_t index);
