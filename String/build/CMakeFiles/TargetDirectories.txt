@@ -1,0 +1,4 @@
+/Users/marat/CppProject/String/build/CMakeFiles/String.dir
+/Users/marat/CppProject/String/build/CMakeFiles/Test.dir
+/Users/marat/CppProject/String/build/CMakeFiles/edit_cache.dir
+/Users/marat/CppProject/String/build/CMakeFiles/rebuild_cache.dir

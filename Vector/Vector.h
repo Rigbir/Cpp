@@ -1,3 +1,7 @@
+//
+// Created by Marat on 4.06.25.
+//
+
 #pragma once
 #include <initializer_list>
 

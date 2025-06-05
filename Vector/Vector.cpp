@@ -1,3 +1,7 @@
+//
+// Created by Marat on 4.06.25.
+//
+
 #include "Vector.h"
 #include <algorithm>
 #include <stdexcept>

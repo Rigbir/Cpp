@@ -8,7 +8,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(Vector Vector.cpp
         Vector.h
         main.cpp)
-add_executable(Test main.cpp)
+add_executable(Test main.cpp
+        ../String/String.cpp
+        ../String/String.h
+        ../String/main.cpp)
 
 target_compile_options(Vector PRIVATE -Wextra -Werror -fsanitize=address)
 target_link_options(Vector PRIVATE -fsanitize=address)
