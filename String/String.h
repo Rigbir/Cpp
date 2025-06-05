@@ -10,6 +10,9 @@ public:
 
     MyString(size_t n, char c);
     MyString(std::initializer_list<char> list);
+    MyString(const MyString& other);
+    ~MyString();
+
 
     [[nodiscard]] size_t size() const noexcept;
     [[nodiscard]] size_t capacity() const noexcept;

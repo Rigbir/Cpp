@@ -23,6 +23,13 @@ MyString::MyString(std::initializer_list<char> list)
     arr[StrSize_] = '\0';
 }
 
+MyString::MyString(const MyString& other)
+        : arr(new char[other.StrCapacity_])
+        , StrSize_(other.StrSize_)
+        , StrCapacity_(other.StrCapacity_) {
+    std::ranges::copy(other.arr, other.arr + other.StrSize_, arr);
+}
+
 size_t MyString::size() const noexcept {
     return StrSize_;
 }
@@ -31,6 +38,9 @@ size_t MyString::capacity() const noexcept {
     return StrCapacity_;
 }
 
+MyString::~MyString() {
+    delete[] arr;
+}
 
 void MyString::print() {
     std::cout << std::string_view(arr, StrSize_) << '\n';
