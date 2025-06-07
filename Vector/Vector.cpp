@@ -110,7 +110,7 @@ void MyVector::reserve(size_t newCapacity) {
 
 void MyVector::shrink_to_fit() noexcept {
     if (vecCapacity > vecSize) {
-        vecCapacity = vecSize;
+        reallocate(vecSize);
     }
 }
 
