@@ -9,3 +9,6 @@
 
 ## [Vector](https://github.com/Rigbir/Cpp/tree/main/Vector)
 - #### Implementation of a custom vector class and related functionality.
+
+## [String](https://github.com/Rigbir/Cpp/tree/main/String)
+- #### Implementation of a custom string class and related functionality.
