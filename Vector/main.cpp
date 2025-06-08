@@ -10,7 +10,7 @@ int main() {
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    MyVector vec(5, -2);
+    MyVector<int> vec(5, -2);
 
     vec.print();
 
@@ -44,16 +44,16 @@ int main() {
 
     std::cout << "Empty: " << vec.empty() << '\n';
 
-    MyVector vec2 = vec;
+    MyVector<int> vec2 = vec;
     vec2.print();
     std::cout << "Size: " << vec2.size() << '\t' << "Capacity: " << vec2.capacity() << '\n' << '\n';
 
-    MyVector vec3;
+    MyVector<int> vec3;
     vec3 = vec2;
     vec3.print();
     std::cout << "Size: " << vec3.size() << '\t' << "Capacity: " << vec3.capacity() << '\n' << '\n';
 
-    MyVector vec4;
+    MyVector<int> vec4;
     vec4 = std::move(vec3);
     vec4.print();
     std::cout << "Size: " << vec4.size() << '\t' << "Capacity: " << vec4.capacity() << '\n' << '\n';
@@ -68,7 +68,7 @@ int main() {
     vec4.print();
     std::cout << "Size: " << vec4.size() << '\t' << "Capacity: " << vec4.capacity() << '\n' << '\n';
 
-    MyVector vec5(3, 1);
+    MyVector<int> vec5(3, 1);
     vec5.print();
     std::cout << "Size: " << vec4.size() << '\t' << "Capacity: " << vec4.capacity() << '\n' << '\n';
 
@@ -79,17 +79,20 @@ int main() {
     vec4.print();
     std::cout << "Size: " << vec4.size() << '\t' << "Capacity: " << vec4.capacity() << '\n' << '\n';
 
-    MyVector vec6 = {1, 2, 3};
+    MyVector<int> vec6 = {1, 2, 3};
     vec6.print();
     std::cout << "Size: " << vec6.size() << '\t' << "Capacity: " << vec6.capacity() << '\n' << '\n';
 
 
-    MyVector vec7 = {1, 2, 3};
+    MyVector<int> vec7 = {1, 2, 3};
     bool equal = vec6 == vec7;
     bool notEqual = vec6 != vec7;
     std::cout << "Equal: " << equal << '\n';
     std::cout << "Equal: " << notEqual << '\n';
 
+    MyVector<std::string> vec8 = {"some", "test"};
+    vec8.print();
+
     auto end = std::chrono::high_resolution_clock::now();
     std::cout << std::chrono::duration<double>(end - start).count() << "s\n";
-}
+

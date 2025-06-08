@@ -5,20 +5,21 @@
 #pragma once
 #include <initializer_list>
 
+template<typename T>
 class MyVector {
 public:
     MyVector() = default;
 
-    explicit MyVector(size_t size, int value);
-    MyVector(std::initializer_list<int> list);
+    explicit MyVector(size_t size, T value);
+    MyVector(std::initializer_list<T> list);
 
     MyVector(const MyVector& other);
     MyVector(MyVector&& other) noexcept;
     ~MyVector();
 
-    void push_back(int value);
+    void push_back(T value);
     void pop_back();
-    void insert(size_t pos, int value);
+    void insert(size_t pos, T value);
     void erase(size_t pos);
     void clear() noexcept;
     void resize(size_t newSize);
@@ -46,7 +47,7 @@ public:
     void print() const noexcept;
 
 private:
-    int* arr = nullptr;
+    T* arr = nullptr;
     size_t vecSize = 0;
     size_t vecCapacity = 0;
 
@@ -54,3 +55,5 @@ private:
     void checkValidIndex(size_t index) const;
     void reallocate(size_t newCapacity);
 };
+
+#include "Vector.tpp"

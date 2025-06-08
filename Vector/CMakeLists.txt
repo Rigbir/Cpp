@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(Vector Vector.cpp
+add_executable(Vector Vector.tpp
         Vector.h
         main.cpp)
 add_executable(Test main.cpp)
