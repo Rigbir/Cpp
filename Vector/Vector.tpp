@@ -215,6 +215,26 @@ bool MyVector<T>::operator != (const MyVector& other) const {
 }
 
 template<typename T>
+T* MyVector<T>::begin() noexcept {
+    return arr;
+}
+
+template<typename T>
+T* MyVector<T>::end() noexcept {
+    return arr + vecSize;
+}
+
+template<typename T>
+const T* MyVector<T>::begin() const noexcept {
+    return arr;
+}
+
+template<typename T>
+const T* MyVector<T>::end() const noexcept {
+    return arr + vecSize;
+}
+
+template<typename T>
 size_t MyVector<T>::size() const noexcept {
     return vecSize;
 }

@@ -7,7 +7,6 @@
 #include <chrono>
 
 int main() {
-
     auto start = std::chrono::high_resolution_clock::now();
 
     MyVector<int> vec(5, -2);
@@ -92,7 +91,11 @@ int main() {
 
     MyVector<std::string> vec8 = {"some", "test"};
     vec8.print();
+    for (int* i = vec.begin(); i != vec.end(); ++i) {
+        std::cout << *i << ' ';
+    }
+    std::cout << '\n';
 
     auto end = std::chrono::high_resolution_clock::now();
     std::cout << std::chrono::duration<double>(end - start).count() << "s\n";
-
+}

@@ -40,6 +40,11 @@ public:
     bool operator == (const MyVector& other) const;
     bool operator != (const MyVector& other) const;
 
+    T* begin() noexcept;
+    T* end() noexcept;
+    const T* begin() const noexcept;
+    const T* end() const noexcept;
+
     [[nodiscard]] size_t size() const noexcept;
     [[nodiscard]] size_t capacity() const noexcept;
     [[nodiscard]] bool empty() const noexcept;
