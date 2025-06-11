@@ -12,3 +12,6 @@
 
 ## [String](https://github.com/Rigbir/Cpp/tree/main/String)
 - #### Implementation of a custom string class and related functionality.
+
+## [Figures](https://github.com/Rigbir/Cpp/tree/main/Figures)
+- #### Implementation of a custom figures class and related functionality.
