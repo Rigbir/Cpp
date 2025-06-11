@@ -5,7 +5,9 @@
 #pragma once
 
 #include <iostream>
+#include <sstream>
 #include <string>
+#include <memory>
 
 class Figures {
 public:
@@ -23,8 +25,6 @@ public:
     long double area() const override;
     long double perimeter() const override;
 
-    ~Rectangle() = default;
-
 private:
     long double _width;
     long double _height;
@@ -39,8 +39,6 @@ public:
     long double area() const override;
     long double perimeter() const override;
     bool isValidTriangle() const;
-
-    ~Triangle() = default;
 
 private:
     long double _sideA;
@@ -57,8 +55,9 @@ public:
     long double area() const override;
     long double perimeter() const override;
 
-    ~Circle() = default;
-
 private:
     long double _radius;
 };
+
+
+
