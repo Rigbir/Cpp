@@ -1,0 +1,4 @@
+/Users/marat/CppProject/Figures/build/CMakeFiles/Figures.dir
+/Users/marat/CppProject/Figures/build/CMakeFiles/TestFigures.dir
+/Users/marat/CppProject/Figures/build/CMakeFiles/edit_cache.dir
+/Users/marat/CppProject/Figures/build/CMakeFiles/rebuild_cache.dir
