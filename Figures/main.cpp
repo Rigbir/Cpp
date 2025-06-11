@@ -18,18 +18,18 @@ int main() {
     Rectangle rectangle(5, 4);
 
     print("Name Figures: ", rectangle.name(), '\n',
-            "Rectangle area: ", rectangle.area(), '\n',
-            "Rectangle Perimeter: ", rectangle.perimeter(), '\n');
+          "Rectangle area: ", rectangle.area(), '\n',
+          "Rectangle Perimeter: ", rectangle.perimeter(), '\n');
 
     Triangle triangle(5, 16, 20);
 
     print("Name Figures: ", triangle.name(), '\n',
-            "Triangle area: ", triangle.area(), '\n',
-            "Triangle Perimeter: ", triangle.perimeter(), '\n');
+          "Triangle area: ", triangle.area(), '\n',
+          "Triangle Perimeter: ", triangle.perimeter(), '\n');
 
     Circle circle(184);
 
     print("Name Figures: ", circle.name(), '\n',
-            "Circle area: ", circle.area(), '\n',
-            "Circle Perimeter: ", circle.perimeter(), '\n');
+          "Circle area: ", circle.area(), '\n',
+          "Circle Perimeter: ", circle.perimeter(), '\n');
 }
