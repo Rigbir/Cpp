@@ -2,7 +2,7 @@
 // Created by Marat on 11.06.25.
 //
 
-#include "Figures.cpp"
+#include "FiguresFactory.cpp"
 #include <vector>
 
 void print() { std::cout << '\n'; }

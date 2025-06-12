@@ -5,15 +5,20 @@
 #pragma once
 
 #include <iostream>
-#include <sstream>
 #include <string>
-#include <memory>
+#include <list>
 
 class Figures {
 public:
     virtual std::string name() const = 0;
     virtual long double area() const = 0;
     virtual long double perimeter() const = 0;
+    virtual long double scale(long double scale) = 0;
+    virtual bool isConvex() const {}
+    virtual std::list<std::string> angles() const {}
+    virtual long double centroid() const {}
+    virtual bool containsPointer(double pointFirst, double pointSecond) const = 0;
+    virtual ~Figures() = default;
 };
 
 class Rectangle: public Figures {
@@ -58,25 +63,3 @@ public:
 private:
     long double _radius;
 };
-
-std::unique_ptr<Figures> createFigures(std::istringstream& is) {
-    std::string figure;
-    is >> figure;
-
-    if (figure == "rectangle") {
-        long double width, height;
-        is >> width >> height;
-        return std::make_unique<Rectangle>(width, height);
-    } else if (figure == "triangle") {
-        long double sideA, sideB, sideC;
-        is >> sideA >> sideB >> sideC;
-        return std::make_unique<Triangle>(sideA, sideB, sideC);
-    } else if (figure == "circle") {
-        long double radius;
-        is >> radius;
-        return std::make_unique<Circle>(radius);
-    }
-
-    return nullptr;
-}
-

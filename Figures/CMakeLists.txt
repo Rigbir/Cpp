@@ -7,7 +7,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(Figures Figures.cpp
                        Figures.h
-                       main.cpp)
+                       main.cpp
+        FiguresFactory.cpp
+        FiguresFactory.h)
 
 add_executable(TestFigures main.cpp)
 
