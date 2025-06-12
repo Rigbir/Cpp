@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <iostream>
 #include <string>
 #include <list>
 
@@ -13,37 +12,46 @@ public:
     virtual std::string name() const = 0;
     virtual long double area() const = 0;
     virtual long double perimeter() const = 0;
-    virtual long double scale(long double scale) = 0;
-    virtual bool isConvex() const {}
-    virtual std::list<std::string> angles() const {}
-    virtual long double centroid() const {}
+    virtual long double scale(double _scale) = 0;
+    virtual bool isConvex() const { return true; }
+    virtual std::list<std::string> angles() const { return {}; }
+    virtual long double centroid() const { return 0.0; }
     virtual bool containsPointer(double pointFirst, double pointSecond) const = 0;
     virtual ~Figures() = default;
 };
 
-class Rectangle: public Figures {
+class Rectangle final: public Figures {
 public:
 
-    Rectangle(long double width, long double height);
+    explicit Rectangle(long double width, long double height);
 
     std::string name() const override;
     long double area() const override;
     long double perimeter() const override;
+    long double scale(double _scale) override;
+    bool isConvex() const override { return true; }
+    std::list<std::string> angles() const override { return {}; }
+    long double centroid() const override { return 0.0; }
+    bool containsPointer(double pointFirst, double pointSecond) const override;
 
 private:
     long double _width;
     long double _height;
 };
 
-class Triangle: public Figures {
+class Triangle final: public Figures {
 public:
 
-    Triangle(long double sideA, long double sideB, long double sideC);
+    explicit Triangle(long double sideA, long double sideB, long double sideC);
 
+    bool isValidTriangle() const;
     std::string name() const override;
     long double area() const override;
     long double perimeter() const override;
-    bool isValidTriangle() const;
+    long double scale(double _scale) override;
+    std::list<std::string> angles() const override { return {}; }
+    long double centroid() const override { return 0.0; }
+    bool containsPointer(double pointFirst, double pointSecond) const override;
 
 private:
     long double _sideA;
@@ -51,15 +59,18 @@ private:
     long double _sideC;
 };
 
-class Circle: public Figures {
+class Circle final: public Figures {
 public:
 
-    Circle(long double radius);
+    explicit Circle(long double radius);
 
     std::string name() const override;
     long double area() const override;
     long double perimeter() const override;
+    long double scale(double _scale) override;
+    bool containsPointer(double pointFirst, double pointSecond) const override;
 
 private:
     long double _radius;
 };
+
