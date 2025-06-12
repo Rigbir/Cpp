@@ -11,7 +11,7 @@
 
 class Figures {
 public:
-    virtual std::string name() = 0;
+    virtual std::string name() const = 0;
     virtual long double area() const = 0;
     virtual long double perimeter() const = 0;
 };
@@ -21,7 +21,7 @@ public:
 
     Rectangle(long double width, long double height);
 
-    std::string name() override;
+    std::string name() const override;
     long double area() const override;
     long double perimeter() const override;
 
@@ -35,7 +35,7 @@ public:
 
     Triangle(long double sideA, long double sideB, long double sideC);
 
-    std::string name() override;
+    std::string name() const override;
     long double area() const override;
     long double perimeter() const override;
     bool isValidTriangle() const;
@@ -51,7 +51,7 @@ public:
 
     Circle(long double radius);
 
-    std::string name() override;
+    std::string name() const override;
     long double area() const override;
     long double perimeter() const override;
 
@@ -59,5 +59,24 @@ private:
     long double _radius;
 };
 
+std::unique_ptr<Figures> createFigures(std::istringstream& is) {
+    std::string figure;
+    is >> figure;
 
+    if (figure == "rectangle") {
+        long double width, height;
+        is >> width >> height;
+        return std::make_unique<Rectangle>(width, height);
+    } else if (figure == "triangle") {
+        long double sideA, sideB, sideC;
+        is >> sideA >> sideB >> sideC;
+        return std::make_unique<Triangle>(sideA, sideB, sideC);
+    } else if (figure == "circle") {
+        long double radius;
+        is >> radius;
+        return std::make_unique<Circle>(radius);
+    }
+
+    return nullptr;
+}
 

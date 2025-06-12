@@ -12,7 +12,7 @@ Rectangle::Rectangle(long double width, long double height)
         : _width(width)
         , _height(height) {}
 
-std::string Rectangle::name() {
+std::string Rectangle::name() const {
     return "Rectangle";
 }
 
@@ -29,7 +29,7 @@ Triangle::Triangle(long double sideA, long double sideB, long double sideC)
         , _sideB(sideB)
         , _sideC(sideC) {}
 
-std::string Triangle::name() {
+std::string Triangle::name() const {
     return "Triangle";
 }
 
@@ -55,7 +55,7 @@ bool Triangle::isValidTriangle() const {
 
 Circle::Circle(long double radius): _radius(radius) {}
 
-std::string Circle::name() {
+std::string Circle::name() const {
     return "Circle";
 }
 

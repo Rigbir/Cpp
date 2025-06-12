@@ -13,23 +13,39 @@ void print(const Head& head, const Tail&... tail) {
     print(tail...);
 }
 
+void handleAdd(std::vector<std::unique_ptr<Figures>>& v, std::istringstream& is) {
+    if (std::unique_ptr<Figures> figure = createFigures(is)) {
+        v.push_back(std::move(figure));
+    } else {
+        std::cout << "Invalid figure type\n";
+    }
+}
+
+void handlePrint(const std::vector<std::unique_ptr<Figures>>& v) {
+    for (const auto& figure : v) {
+        print("Name: ", figure->name(), '\n',
+              "Area: ", figure->area(), '\n',
+              "Perimeter: ", figure->perimeter(), '\n');
+    }
+}
+
 int main() {
 
-    Rectangle rectangle(5, 4);
+    std::vector<std::unique_ptr<Figures>> figures;
 
-    print("Name Figures: ", rectangle.name(), '\n',
-          "Rectangle area: ", rectangle.area(), '\n',
-          "Rectangle Perimeter: ", rectangle.perimeter(), '\n');
+    for (std::string line; std::getline(std::cin, line);){
+        std::istringstream is(line);
+        std::string command;
+        is >> command;
 
-    Triangle triangle(5, 16, 20);
-
-    print("Name Figures: ", triangle.name(), '\n',
-          "Triangle area: ", triangle.area(), '\n',
-          "Triangle Perimeter: ", triangle.perimeter(), '\n');
-
-    Circle circle(184);
-
-    print("Name Figures: ", circle.name(), '\n',
-          "Circle area: ", circle.area(), '\n',
-          "Circle Perimeter: ", circle.perimeter(), '\n');
+        if (command == "add") {
+            handleAdd(figures, is);
+        } else if (command == "print") {
+            handlePrint(figures);
+        } else if (command == "end") {
+            break;
+        } else {
+            std::cout << "Unknown command: " << command << '\n';
+        }
+    }
 }
