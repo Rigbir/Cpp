@@ -4,8 +4,8 @@
 
 #pragma once
 
+#include <utility>
 #include <string>
-#include <list>
 
 class Figures {
 public:
@@ -14,8 +14,8 @@ public:
     virtual long double perimeter() const = 0;
     virtual long double scale(double _scale) = 0;
     virtual bool isConvex() const { return true; }
-    virtual std::list<std::string> angles() const { return {}; }
-    virtual long double centroid() const { return 0.0; }
+    virtual std::string angles() const { return {}; }
+    virtual std::pair<long double, long double> centroid() const { return {}; }
     virtual bool containsPointer(double pointFirst, double pointSecond) const = 0;
     virtual ~Figures() = default;
 };
@@ -29,9 +29,8 @@ public:
     long double area() const override;
     long double perimeter() const override;
     long double scale(double _scale) override;
-    bool isConvex() const override { return true; }
-    std::list<std::string> angles() const override { return {}; }
-    long double centroid() const override { return 0.0; }
+    std::string angles() const override;
+    std::pair<long double, long double> centroid() const override;
     bool containsPointer(double pointFirst, double pointSecond) const override;
 
 private:
@@ -49,8 +48,8 @@ public:
     long double area() const override;
     long double perimeter() const override;
     long double scale(double _scale) override;
-    std::list<std::string> angles() const override { return {}; }
-    long double centroid() const override { return 0.0; }
+    std::string angles() const override;
+    std::pair<long double, long double> centroid() const override;
     bool containsPointer(double pointFirst, double pointSecond) const override;
 
 private:
@@ -73,4 +72,3 @@ public:
 private:
     long double _radius;
 };
-

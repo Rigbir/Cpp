@@ -24,4 +24,3 @@ std::unique_ptr<Figures> createFigures(std::istringstream& is) {
 
     return nullptr;
 }
-

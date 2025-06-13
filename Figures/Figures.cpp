@@ -24,6 +24,24 @@ long double Rectangle::perimeter() const {
     return 2 * (_width + _height);
 }
 
+long double Rectangle::scale(double _scale) {
+    _width *= _scale;
+    _height *= _scale;
+    return area();
+}
+
+std::string Rectangle::angles() const {
+    return {"90", "90", "90", "90"};
+}
+
+std::pair<long double, long double> Rectangle::centroid() const {
+    return {_width / 2, _height / 2 };
+}
+
+bool Rectangle::containsPointer(double pointFirst, double pointSecond) const {
+    return pointFirst <= _width && pointFirst >= 0 && pointSecond <= _height && pointSecond >= 0;
+}
+
 Triangle::Triangle(long double sideA, long double sideB, long double sideC)
         : _sideA(sideA)
         , _sideB(sideB)
@@ -51,6 +69,17 @@ bool Triangle::isValidTriangle() const {
     return (_sideB + _sideC > _sideA)
         && (_sideA + _sideC > _sideB)
         && (_sideA + _sideB > _sideC);
+}
+
+long double Triangle::scale(double _scale) {
+    _scale *= _sideA;
+    _scale *= _sideB;
+    _scale *= _sideC;
+    return area();
+}
+
+std::string Triangle::angles() const {
+
 }
 
 Circle::Circle(long double radius): _radius(radius) {}
