@@ -13,10 +13,13 @@ public:
     virtual long double area() const = 0;
     virtual long double perimeter() const = 0;
     virtual long double scale(double _scale) = 0;
-    virtual bool isConvex() const { return true; }
-    virtual std::string angles() const { return {}; }
-    virtual std::pair<long double, long double> centroid() const { return {}; }
-    virtual bool containsPointer(double pointFirst, double pointSecond) const = 0;
+    virtual std::string angles() const = 0;
+    virtual std::pair<long double, long double> centroid() const = 0;
+    virtual bool containsPointer(double pointFirst, double pointSecond) const { return true; }
+
+    template <typename T>
+    static long double pow(T value);
+
     virtual ~Figures() = default;
 };
 
@@ -50,7 +53,6 @@ public:
     long double scale(double _scale) override;
     std::string angles() const override;
     std::pair<long double, long double> centroid() const override;
-    bool containsPointer(double pointFirst, double pointSecond) const override;
 
 private:
     long double _sideA;
@@ -67,6 +69,8 @@ public:
     long double area() const override;
     long double perimeter() const override;
     long double scale(double _scale) override;
+    std::string angles() const override;
+    std::pair<long double, long double> centroid() const override;
     bool containsPointer(double pointFirst, double pointSecond) const override;
 
 private:
