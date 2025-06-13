@@ -46,10 +46,11 @@ void changeScale(const std::vector<std::unique_ptr<Figures>>& v) {
     double scale;
     std::cout << "Print scale: ";
     std::cin >> scale;
+    std::cout << '\n';
 
     for (auto& figure : v) {
-        long double newScale = figure->scale(scale);
-        print("New Area: ", figure->name(), ' ', newScale, '\n');
+        figure->scale(scale);
+        handlePrint(v);
     }
 }
 
@@ -59,6 +60,7 @@ void containsPoint(const std::vector<std::unique_ptr<Figures>>& v) {
     double pointFirst, pointSecond;
     std::cout << "Enter two points: ";
     std::cin >> pointFirst >> pointSecond;
+    std::cout << '\n';
 
     for (const auto& figure : v) {
         if (figure->name() == "Triangle") continue;
@@ -67,7 +69,19 @@ void containsPoint(const std::vector<std::unique_ptr<Figures>>& v) {
     }
 }
 
+void userInterface() {
+    print("Command list: ", '\n',
+          "1. add -> create new figure. (add 'name figure' 'sizes figures')", '\n',
+          "2. print -> print all information about figures.", '\n',
+          "3. scale -> change area figures.", '\n',
+          "4. point -> checks whether the point is in the figure.", '\n',
+          "5. end -> end program.", '\n',
+          "Program supports figures: rectangle, triangle, circle.", '\n');
+}
+
 int main() {
+
+    userInterface();
 
     std::vector<std::unique_ptr<Figures>> figures;
 
