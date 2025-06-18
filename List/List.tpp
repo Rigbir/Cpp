@@ -4,11 +4,34 @@
 
 #pragma once
 
+template<typename T>
+List<T>::List()
+        : _value()
+        , next(nullptr)
+        , prev(nullptr) {}
+
 template <typename T>
 List<T>::List(const T& value)
         : _value(value)
         , next(nullptr)
         , prev(nullptr) {}
+
+template <typename T>
+List<T>::List(size_t count, const T& value)
+        : _value(value)
+        , next(nullptr)
+        , prev(nullptr) {
+    List<T>* current = this;
+
+    for (size_t i = 1; i < count; ++i) {
+        List<T>* newNode = new List<T>(value);
+
+        newNode->next = nullptr;
+        newNode->prev = current;
+        current->next = newNode;
+        current = newNode;
+    }
+}
 
 template <typename T>
 List<T>::List(std::initializer_list<T> list)
@@ -27,6 +50,14 @@ List<T>::List(std::initializer_list<T> list)
 
         current = newNode;
     }
+}
+
+template <typename T>
+List<T>::List(const List<T>& other)
+        : _value(other._value)
+        , next(nullptr)
+        , prev(nullptr) {
+
 }
 
 template <typename T>

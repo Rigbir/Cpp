@@ -22,4 +22,10 @@ int main() {
 
     pos = l.insert(pos, 8);
     pos->print();
+
+    List<int> l2(4, 1);
+    l2.print();
+
+    List<int> l3 = l;
+    l3.print();
 }

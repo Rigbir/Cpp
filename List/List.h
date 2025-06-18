@@ -15,9 +15,12 @@ public:
     explicit List(const T& value);
     explicit List(size_t count, const T& value);
     List(std::initializer_list<T> list);
+    List(const List<T>& other);
+    List(List<T>&& other);
 
     void append(const T& value);
     List<T>* insert(List<T>* pos, const T& value);
+    
 
     void empty() const;
     void size() const;

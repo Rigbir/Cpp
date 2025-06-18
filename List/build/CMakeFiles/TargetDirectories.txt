@@ -1,4 +1,0 @@
-/Users/marat/CppProject/List/build/CMakeFiles/List.dir
-/Users/marat/CppProject/List/build/CMakeFiles/TestList.dir
-/Users/marat/CppProject/List/build/CMakeFiles/edit_cache.dir
-/Users/marat/CppProject/List/build/CMakeFiles/rebuild_cache.dir
