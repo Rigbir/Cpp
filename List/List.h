@@ -7,7 +7,7 @@
 #include <iostream>
 #include <initializer_list>
 
-template <typename T>
+template<typename T>
 class List {
 public:
 
@@ -18,11 +18,21 @@ public:
     List(const List<T>& other);
     List(List<T>&& other);
 
-    void append(const T& value);
+    void clear();
     List<T>* insert(List<T>* pos, const T& value);
+    List<T>* erase(List<T>* pos);
+    void push_back(const T& value);
+    void pop_back();
+    void push_front(const T& value);
+    void pop_front();
+    void resize(size_t count);
+    void swap(List<T>& other);
 
 
-    void empty() const;
+
+
+
+    bool empty() const;
     void size() const;
     void max_size() const;
 

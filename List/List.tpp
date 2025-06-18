@@ -10,13 +10,13 @@ List<T>::List()
         , next(nullptr)
         , prev(nullptr) {}
 
-template <typename T>
+template<typename T>
 List<T>::List(const T& value)
         : _value(value)
         , next(nullptr)
         , prev(nullptr) {}
 
-template <typename T>
+template<typename T>
 List<T>::List(size_t count, const T& value)
         : _value(value)
         , next(nullptr)
@@ -33,7 +33,7 @@ List<T>::List(size_t count, const T& value)
     }
 }
 
-template <typename T>
+template<typename T>
 List<T>::List(std::initializer_list<T> list)
         : _value(*list.begin())
         , next(nullptr)
@@ -52,7 +52,7 @@ List<T>::List(std::initializer_list<T> list)
     }
 }
 
-template <typename T>
+template<typename T>
 List<T>::List(const List<T>& other)
         : _value(other._value)
         , next(nullptr)
@@ -71,7 +71,7 @@ List<T>::List(const List<T>& other)
     }
 }
 
-template <typename T>
+template<typename T>
 List<T>::List(List<T>&& other)
         : _value(std::move(other._value))
         , next(other.next)
@@ -80,22 +80,21 @@ List<T>::List(List<T>&& other)
     other.prev = nullptr;
 }
 
-template <typename T>
-void List<T>::append(const T& value) {
-    List<T>* current = this;
+template<typename T>
+void List<T>::clear() {
+    List<T>* current = this->next;
 
-    while (current->next != nullptr) {
-        current = current->next;
+    while (current != nullptr) {
+        List<T>* node = current->next;
+        current->next = nullptr;
+        delete current;
+        current = node;
     }
 
-    List<T>* newNode = new List<T>(value);
-
-    newNode->next = nullptr;
-    newNode->prev = current;
-    current->next = newNode;
+    this->next = nullptr;
 }
 
-template <typename T>
+template<typename T>
 List<T>* List<T>::insert(List<T>* pos, const T& value) {
     List<T>* newNode = new List<T>(value);
 
@@ -110,7 +109,67 @@ List<T>* List<T>::insert(List<T>* pos, const T& value) {
     return (newNode->prev == nullptr) ? newNode : pos;
 }
 
-template <typename T>
+template<typename T>
+List<T> *List<T>::erase(List<T>* pos) {
+
+}
+
+template<typename T>
+void List<T>::push_back(const T& value) {
+    List<T>* current = this;
+
+    while (current->next != nullptr) {
+        current = current->next;
+    }
+
+    List<T>* newNode = new List<T>(value);
+
+    newNode->next = nullptr;
+    newNode->prev = current;
+    current->next = newNode;
+}
+
+template<typename T>
+void List<T>::pop_back() {
+
+}
+
+template<typename T>
+void List<T>::push_front(const T& value) {
+
+}
+
+template<typename T>
+void List<T>::pop_front() {
+
+}
+
+template<typename T>
+void List<T>::resize(size_t count) {
+
+}
+
+template<typename T>
+void List<T>::swap(List<T>& other) {
+
+}
+
+template<typename T>
+bool List<T>::empty() const {
+    return this->next == nullptr;
+}
+
+template<typename T>
+void List<T>::size() const {
+
+}
+
+template<typename T>
+void List<T>::max_size() const {
+
+}
+
+template<typename T>
 List<T>* List<T>::begin() {
     return this;
 }
@@ -120,7 +179,7 @@ std::ostream& operator << (std::ostream& os, List<U>* it) {
     return os << it->_value;
 }
 
-template <typename T>
+template<typename T>
 void List<T>::print() {
     List<T>* current = this;
     while (current != nullptr) {
@@ -130,11 +189,7 @@ void List<T>::print() {
     std::cout << '\n';
 }
 
-template <typename T>
+template<typename T>
 List<T>::~List() {
-    while (this->prev != nullptr) {
-        const List<T>* temp = this->prev;
-        this->prev = this->prev->prev;
-        delete temp;
-    }
+    clear();
 }

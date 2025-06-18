@@ -14,7 +14,7 @@ int main() {
     l.print();
     ls.print();
 
-    l.append(4);
+    l.push_back(4);
     l.print();
 
     auto pos = l.begin();
@@ -31,4 +31,9 @@ int main() {
 
     List<int> l4 = std::move(l3);
     l4.print();
+
+    std::cout << std::boolalpha << l4.empty() << '\n';
+    l4.clear();
+    std::cout << std::boolalpha << l4.empty() << '\n';
+
 }
