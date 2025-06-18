@@ -57,7 +57,27 @@ List<T>::List(const List<T>& other)
         : _value(other._value)
         , next(nullptr)
         , prev(nullptr) {
+    const List<T>* otherCurrent = other.next;
+    List<T>* current = this;
 
+    while (otherCurrent->next != nullptr) {
+        List<T>* newNode = new List<T>(otherCurrent->_value);
+
+        newNode->prev = current;
+        current->next = newNode;
+        current = newNode;
+
+        otherCurrent = otherCurrent->next;
+    }
+}
+
+template <typename T>
+List<T>::List(List<T>&& other)
+        : _value(std::move(other._value))
+        , next(other.next)
+        , prev(other.prev) {
+    other.next = nullptr;
+    other.prev = nullptr;
 }
 
 template <typename T>

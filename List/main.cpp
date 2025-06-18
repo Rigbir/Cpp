@@ -28,4 +28,7 @@ int main() {
 
     List<int> l3 = l;
     l3.print();
+
+    List<int> l4 = std::move(l3);
+    l4.print();
 }

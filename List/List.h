@@ -20,7 +20,7 @@ public:
 
     void append(const T& value);
     List<T>* insert(List<T>* pos, const T& value);
-    
+
 
     void empty() const;
     void size() const;
