@@ -170,7 +170,15 @@ void List<T>::push_front(const T& value) {
 
 template<typename T>
 void List<T>::pop_front() {
+    if (head == nullptr) {
+        return;
+    }
 
+    Node* current = head;
+    head = head->next;
+    head->prev = nullptr;
+
+    delete current;
 }
 
 template<typename T>

@@ -51,6 +51,10 @@ int main() {
     List<int> l6;
     l6.push_back(2);
     l6.print();
+
     l6.push_front(1);
+    l6.print();
+
+    l6.pop_front();
     l6.print();
 }
