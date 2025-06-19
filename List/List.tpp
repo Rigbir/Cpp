@@ -5,26 +5,26 @@
 #pragma once
 
 template<typename T>
-List<T>::List()
-        : _value()
+List<T>::Node::Node(const T& value)
+        :  _value(value)
         , next(nullptr)
         , prev(nullptr) {}
+
+template<typename T>
+List<T>::List()
+        : head(nullptr) {}
 
 template<typename T>
 List<T>::List(const T& value)
-        : _value(value)
-        , next(nullptr)
-        , prev(nullptr) {}
+        : head(new Node(value)) {}
 
 template<typename T>
 List<T>::List(size_t count, const T& value)
-        : _value(value)
-        , next(nullptr)
-        , prev(nullptr) {
-    List<T>* current = this;
+        : head(new Node(value)) {
+    Node* current = head;
 
     for (size_t i = 1; i < count; ++i) {
-        List<T>* newNode = new List<T>(value);
+        Node* newNode = new Node(value);
 
         newNode->next = nullptr;
         newNode->prev = current;
@@ -34,16 +34,19 @@ List<T>::List(size_t count, const T& value)
 }
 
 template<typename T>
-List<T>::List(std::initializer_list<T> list)
-        : _value(*list.begin())
-        , next(nullptr)
-        , prev(nullptr) {
-    List<T>* current = this;
+List<T>::List(std::initializer_list<T> list) {
+    if (list.size() == 0) {
+        head = nullptr;
+        return;
+    }
+
     auto it = list.begin();
-    ++it;
+    head = new Node(*it);
+    Node* current = head;
 
+    ++it;
     for (; it != list.end(); ++it) {
-        List<T>* newNode = new List<T>(*it);
+        Node* newNode = new Node(*it);
         newNode->next = nullptr;
         newNode->prev = current;
         current->next = newNode;
@@ -53,76 +56,77 @@ List<T>::List(std::initializer_list<T> list)
 }
 
 template<typename T>
-List<T>::List(const List<T>& other)
-        : _value(other._value)
-        , next(nullptr)
-        , prev(nullptr) {
-    const List<T>* otherCurrent = other.next;
-    List<T>* current = this;
+List<T>::List(const List<T>& other) {
+    if (other.head == nullptr) {
+        head = nullptr;
+        return;
+    }
 
-    while (otherCurrent->next != nullptr) {
-        List<T>* newNode = new List<T>(otherCurrent->_value);
+    head = new Node(other.head->_value);
+    Node* otherCurrent = other.head->next;
+    Node* current = head;
 
+    while (otherCurrent != nullptr) {
+        Node* newNode = new Node(otherCurrent->_value);
+
+        newNode->next = nullptr;
         newNode->prev = current;
         current->next = newNode;
-        current = newNode;
 
+        current = newNode;
         otherCurrent = otherCurrent->next;
     }
 }
 
 template<typename T>
-List<T>::List(List<T>&& other)
-        : _value(std::move(other._value))
-        , next(other.next)
-        , prev(other.prev) {
-    other.next = nullptr;
-    other.prev = nullptr;
+List<T>::List(List<T>&& other) noexcept
+        : head(other.head) {
+    other.head = nullptr;
 }
 
 template<typename T>
 void List<T>::clear() {
-    List<T>* current = this->next;
+    Node* current = head;
 
     while (current != nullptr) {
-        List<T>* node = current->next;
-        current->next = nullptr;
+        Node* node = current->next;
         delete current;
         current = node;
     }
 
-    this->next = nullptr;
+    head = nullptr;
 }
 
 template<typename T>
-List<T>* List<T>::insert(List<T>* pos, const T& value) {
-    List<T>* newNode = new List<T>(value);
+typename List<T>::Node* List<T>::insert(Node* pos, const T& value) {
+    Node* newNode = new Node(value);
 
-    newNode->next = pos;
-    newNode->prev = pos->prev;
+    newNode->next = pos->next;
+    newNode->prev = (pos ? pos->prev : nullptr);
 
-    if (pos->prev) {
-        pos->prev->next = newNode;
-    }
-    pos->prev = newNode;
 
-    return (newNode->prev == nullptr) ? newNode : pos;
+    return newNode;
 }
 
 template<typename T>
-List<T> *List<T>::erase(List<T>* pos) {
+typename List<T>::Node* List<T>::erase(List<T>* pos) {
 
 }
 
 template<typename T>
 void List<T>::push_back(const T& value) {
-    List<T>* current = this;
+    if (head == nullptr) {
+        head = new Node(value);
+        return;
+    }
+
+    Node* current = head;
 
     while (current->next != nullptr) {
         current = current->next;
     }
 
-    List<T>* newNode = new List<T>(value);
+    Node* newNode = new Node(value);
 
     newNode->next = nullptr;
     newNode->prev = current;
@@ -131,12 +135,37 @@ void List<T>::push_back(const T& value) {
 
 template<typename T>
 void List<T>::pop_back() {
+    if (!head) return;
 
+    if (head->next == nullptr) {
+        delete head;
+        head = nullptr;
+        return;
+    }
+
+    Node* current = head;
+
+    while (current->next != nullptr) {
+        current = current->next;
+    }
+
+    current->prev->next = nullptr;
+    delete current;
 }
 
 template<typename T>
 void List<T>::push_front(const T& value) {
+    if (head == nullptr) {
+        head = new Node(value);
+        return;
+    }
 
+    Node* newNode = new Node(value);
+
+    newNode->next = head;
+    newNode->prev = nullptr;
+    head->prev = newNode;
+    head = newNode;
 }
 
 template<typename T>
@@ -150,13 +179,13 @@ void List<T>::resize(size_t count) {
 }
 
 template<typename T>
-void List<T>::swap(List<T>& other) {
+void List<T>::swap(List<T>& other) noexcept {
 
 }
 
 template<typename T>
 bool List<T>::empty() const {
-    return this->next == nullptr;
+    return head == nullptr;
 }
 
 template<typename T>
@@ -170,18 +199,18 @@ void List<T>::max_size() const {
 }
 
 template<typename T>
-List<T>* List<T>::begin() {
-    return this;
+typename List<T>::Node* List<T>::begin() {
+    return head;
 }
 
-template <typename U>
-std::ostream& operator << (std::ostream& os, List<U>* it) {
-    return os << it->_value;
-}
+// template <typename U>
+// std::ostream& operator << (std::ostream& os, List<U>* it) {
+//     return os <<  *it;
+// }
 
 template<typename T>
 void List<T>::print() {
-    List<T>* current = this;
+    Node* current = head;
     while (current != nullptr) {
         std::cout << current->_value << ' ';
         current = current->next;

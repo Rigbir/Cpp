@@ -20,8 +20,8 @@ int main() {
     auto pos = l.begin();
     std::cout << pos << '\n';
 
-    pos = l.insert(pos, 8);
-    pos->print();
+    //pos = l.insert(pos, 8);
+    //l.print();
 
     List<int> l2(4, 1);
     l2.print();
@@ -36,4 +36,21 @@ int main() {
     l4.clear();
     std::cout << std::boolalpha << l4.empty() << '\n';
 
+    std::cout << "List before pop_back(): ";
+    l.print();
+    l.pop_back();
+
+    std::cout << "List after pop_back(): ";
+    l.print();
+
+    List<int> l5 = {1};
+    l5.print();
+    l5.pop_back();
+    std::cout << std::boolalpha << l5.empty() << '\n';
+
+    List<int> l6;
+    l6.push_back(2);
+    l6.print();
+    l6.push_front(1);
+    l6.print();
 }
