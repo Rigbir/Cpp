@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include <chrono>
 
 template<typename T>
 List<T>::Node::Node(const T& value)
@@ -98,8 +99,33 @@ void List<T>::clear() {
 }
 
 template<typename T>
-typename List<T>::Node* List<T>::insert(Node* pos, const T& value) {
-    
+typename List<T>::Node* List<T>::insert(Iterator pos, const T& value) {
+    Node* nodePos = pos.ptr;
+
+    if (head == nullptr) {
+        head = new Node(value);
+        return head;
+    }
+
+    if (nodePos == head) {
+        Node* current = head;
+        Node* newNode = new Node(value);
+
+        newNode->next = current;
+        head = newNode;
+    } else {
+        Node* current = head;
+
+        while (current->next != nodePos) {
+            current = current->next;
+        }
+
+        Node* newNode = new Node(value);
+
+        newNode->next = current->next;
+        newNode->prev = current;
+        current->next = newNode;
+    }
 }
 
 template<typename T>
@@ -272,6 +298,12 @@ bool List<T>::Iterator::operator != (const Iterator& other) {
 }
 
 template<typename T>
+bool List<T>::Iterator::operator == (const Iterator& other) {
+    return ptr == other.ptr;
+}
+
+
+template<typename T>
 typename List<T>::Iterator List<T>::begin() {
     return Iterator(head);
 }
@@ -280,11 +312,6 @@ template<typename T>
 typename List<T>::Iterator List<T>::end() {
     return Iterator(nullptr);
 }
-
-// template <typename U>
-// std::ostream& operator << (std::ostream& os, List<U>* it) {
-//     return os <<  *it;
-// }
 
 template<typename T>
 void List<T>::print() {

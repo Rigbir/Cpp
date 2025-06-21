@@ -14,10 +14,21 @@ public:
         T _value;
         Node* next;
         Node* prev;
-        Node(const T& value);
+        explicit Node(const T& value);
     };
-
     Node* head;
+
+    class Iterator {
+    private:
+        Node* ptr;
+        friend class List;
+    public:
+        explicit Iterator(Node* p);
+        T& operator * ();
+        Iterator& operator ++ ();
+        bool operator != (const Iterator& other);
+        bool operator == (const Iterator& other);
+    };
 
 public:
 
@@ -29,7 +40,7 @@ public:
     List(List<T>&& other) noexcept;
 
     void clear();
-    Node* insert(Node* pos, const T& value);
+    Node* insert(Iterator pos, const T& value);
     Node* erase(List<T>* pos);
     void push_back(const T& value);
     void pop_back();
@@ -38,26 +49,12 @@ public:
     void resize(size_t count);
     void swap(List<T>& other) noexcept;
 
-    bool empty() const;
-    size_t size() const;
-    size_t max_size() const;
-
-    class Iterator {
-    private:
-        Node* ptr;
-
-    public:
-        Iterator(Node* p);
-        T& operator * ();
-        Iterator& operator ++ ();
-        bool operator != (const Iterator& other);
-    };
+    [[nodiscard]] bool empty() const;
+    [[nodiscard]] size_t size() const;
+    [[nodiscard]] size_t max_size() const;
 
     Iterator begin();
     Iterator end();
-
-    template <typename U>
-    friend std::ostream& operator << (std::ostream& os, List<U>* it);
 
     void print();
 

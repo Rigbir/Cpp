@@ -80,4 +80,17 @@ int main() {
         std::cout << *it << ' ';
     }
     std::cout << '\n';
+
+    List<int> l8 = {1, 2, 3};
+    auto pos = l8.begin();
+    //++pos;
+
+    auto last = pos;
+    while (pos != l8.end()) {
+        last = pos;
+        ++pos;
+    }
+
+    l8.insert(last, 6);
+    l8.print();
 }
