@@ -276,7 +276,9 @@ void List<T>::resize(size_t count) {
 
 template<typename T>
 void List<T>::swap(List<T>& other) noexcept {
-
+    Node* temp = this->head;
+    this->head = other.head;
+    other.head = temp;
 }
 
 template<typename T>
@@ -327,6 +329,20 @@ bool List<T>::Iterator::operator == (const Iterator& other) {
     return ptr == other.ptr;
 }
 
+template<typename T>
+List<T>& List<T>::operator = (const List<T>& other) {
+    if (this == &other) return *this;
+
+    this->clear();
+
+    Node* current = other.head;
+    while (current) {
+        push_back(current->_value);
+        current = current->next;
+    }
+
+    return *this;
+}
 
 template<typename T>
 typename List<T>::Iterator List<T>::begin() {

@@ -5,7 +5,6 @@
 #include "List.h"
 #include <iostream>
 
-
 int main() {
 
     List<int> l = {1, 2, 3};
@@ -98,5 +97,19 @@ int main() {
     l8.print();
 
     l8.insert(l8.begin(), 9);
+    l8.print();
+
+    std::cout << "List before swap: ";
+    std::cout << "First: ";
+    l7.print();
+    std::cout << "Second: ";
+    l8.print();
+
+    l7.swap(l8);
+
+    std::cout << "List after swap: " << '\n';
+    std::cout << "First: ";
+    l7.print();
+    std::cout << "Second: ";
     l8.print();
 }

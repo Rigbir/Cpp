@@ -53,6 +53,15 @@ public:
     [[nodiscard]] size_t size() const;
     [[nodiscard]] size_t max_size() const;
 
+    List<T>& operator = (const List<T>& other);
+    bool operator == (const List<T>& other);
+    bool operator != (const List<T>& other);
+    bool operator < (const List<T>& other);
+    bool operator > (const List<T>& other);
+    bool operator <= (const List<T>& other);
+    bool operator >= (const List<T>& other);
+
+
     Iterator begin();
     Iterator end();
 
