@@ -41,7 +41,7 @@ public:
 
     void clear();
     Node* insert(Iterator pos, const T& value);
-    Node* erase(List<T>* pos);
+    Node* erase(Iterator pos);
     void push_back(const T& value);
     void pop_back();
     void push_front(const T& value);

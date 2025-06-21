@@ -93,4 +93,10 @@ int main() {
 
     l8.insert(last, 6);
     l8.print();
+
+    l8.erase(++(l8.begin()));
+    l8.print();
+
+    l8.insert(l8.begin(), 9);
+    l8.print();
 }

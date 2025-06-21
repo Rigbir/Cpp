@@ -3,7 +3,6 @@
 //
 
 #pragma once
-#include <chrono>
 
 template<typename T>
 List<T>::Node::Node(const T& value)
@@ -102,35 +101,61 @@ template<typename T>
 typename List<T>::Node* List<T>::insert(Iterator pos, const T& value) {
     Node* nodePos = pos.ptr;
 
+    if (nodePos == nullptr) {
+        throw std::invalid_argument("No correct pointer!");
+    }
+
     if (head == nullptr) {
         head = new Node(value);
         return head;
     }
 
     if (nodePos == head) {
-        Node* current = head;
         Node* newNode = new Node(value);
 
-        newNode->next = current;
+        newNode->next = nodePos;
+        nodePos->prev = newNode;
         head = newNode;
-    } else {
-        Node* current = head;
-
-        while (current->next != nodePos) {
-            current = current->next;
-        }
-
-        Node* newNode = new Node(value);
-
-        newNode->next = current->next;
-        newNode->prev = current;
-        current->next = newNode;
+        return newNode;
     }
+
+    Node* newNode = new Node(value);
+
+    newNode->next = nodePos;
+    newNode->prev = nodePos->prev;
+
+    if (nodePos->prev) {
+        nodePos->prev->next = newNode;
+    }
+    nodePos->prev = newNode;
+
+    return newNode;
 }
 
 template<typename T>
-typename List<T>::Node* List<T>::erase(List<T>* pos) {
+typename List<T>::Node* List<T>::erase(Iterator pos) {
+    Node* nodePos = pos.ptr;
 
+    if (head == nullptr || nodePos == nullptr) {
+        throw std::invalid_argument("List empty!");
+    }
+
+    if (nodePos == head) {
+        head = nodePos->next;
+        if (head) {
+            head->prev = nullptr;
+        }
+    } else if (nodePos->next == nullptr) {
+        if (nodePos->prev) {
+            nodePos->prev->next = nullptr;
+        }
+    } else {
+        nodePos->prev->next = nodePos->next;
+        nodePos->next->prev = nodePos->prev;
+    }
+
+    delete nodePos;
+    return head;
 }
 
 template<typename T>
