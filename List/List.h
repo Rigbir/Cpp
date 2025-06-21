@@ -39,10 +39,22 @@ public:
     void swap(List<T>& other) noexcept;
 
     bool empty() const;
-    void size() const;
-    void max_size() const;
+    size_t size() const;
+    size_t max_size() const;
 
-    Node* begin();
+    class Iterator {
+    private:
+        Node* ptr;
+
+    public:
+        Iterator(Node* p);
+        T& operator * ();
+        Iterator& operator ++ ();
+        bool operator != (const Iterator& other);
+    };
+
+    Iterator begin();
+    Iterator end();
 
     template <typename U>
     friend std::ostream& operator << (std::ostream& os, List<U>* it);

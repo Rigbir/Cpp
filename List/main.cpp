@@ -17,12 +17,6 @@ int main() {
     l.push_back(4);
     l.print();
 
-    auto pos = l.begin();
-    std::cout << pos << '\n';
-
-    //pos = l.insert(pos, 8);
-    //l.print();
-
     List<int> l2(4, 1);
     l2.print();
 
@@ -57,4 +51,33 @@ int main() {
 
     l6.pop_front();
     l6.print();
+
+    int size = l6.size();
+    int size2 = l.size();
+    std::cout << "Size: " << size << '\n';
+    std::cout << "Size: " << size2 << '\n';
+
+    size_t maxSize = l6.max_size();
+    std::cout << "Max size: " << maxSize << '\n';
+
+    l6.resize(10);
+    l6.print();
+    size = l6.size();
+    std::cout << "Size: " << size << '\n';
+
+    l.resize(1);
+    l.print();
+
+    List<int> l7 = {1, 2, 3, 8};
+    auto it = l7.begin();
+    std::cout << *it << '\n';
+
+    for (auto value : l7) {
+        std::cout << value << ' ';
+    }
+    std::cout << '\n';
+    for (auto it = l7.begin(); it != l7.end(); ++it) {
+        std::cout << *it << ' ';
+    }
+    std::cout << '\n';
 }

@@ -99,13 +99,7 @@ void List<T>::clear() {
 
 template<typename T>
 typename List<T>::Node* List<T>::insert(Node* pos, const T& value) {
-    Node* newNode = new Node(value);
-
-    newNode->next = pos->next;
-    newNode->prev = (pos ? pos->prev : nullptr);
-
-
-    return newNode;
+    
 }
 
 template<typename T>
@@ -183,7 +177,50 @@ void List<T>::pop_front() {
 
 template<typename T>
 void List<T>::resize(size_t count) {
+    size_t currentCount = size();
 
+    if (currentCount == count) {
+        return;
+    }
+
+    if (count < currentCount) {
+        Node* current = head;
+
+        for (size_t i = 1; i < count; ++i) {
+            current = current->next;
+        }
+
+        Node* delNode = current->next;
+        current->next = nullptr;
+
+        while (delNode != nullptr) {
+            Node* next = delNode->next;
+            delete delNode;
+            delNode = next;
+        }
+
+    } else {
+        Node* current = head;
+
+        if (!current) {
+            head = new Node(T{});
+            currentCount = 1;
+            current = head;
+        } else {
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+        }
+
+        for (size_t i = 0; i < (count - currentCount); ++i) {
+            Node* newNode = new Node(T{});
+
+            newNode->next = nullptr;
+            newNode->prev = current;
+            current->next = newNode;
+            current = newNode;
+        }
+    }
 }
 
 template<typename T>
@@ -197,18 +234,51 @@ bool List<T>::empty() const {
 }
 
 template<typename T>
-void List<T>::size() const {
+size_t List<T>::size() const {
+    size_t count = 0;
+    Node* current = head;
 
+    while (current != nullptr) {
+        ++count;
+        current = current->next;
+    }
+
+    return count;
 }
 
 template<typename T>
-void List<T>::max_size() const {
-
+size_t List<T>::max_size() const {
+    return std::numeric_limits<size_t>::max() / sizeof(Node);
 }
 
 template<typename T>
-typename List<T>::Node* List<T>::begin() {
-    return head;
+List<T>::Iterator::Iterator(Node* p)
+        : ptr(p) {}
+
+template<typename T>
+T& List<T>::Iterator::operator * () {
+    return ptr->_value;
+}
+
+template<typename T>
+typename List<T>::Iterator& List<T>::Iterator::operator ++ () {
+    ptr = ptr->next;
+    return *this;
+}
+
+template<typename T>
+bool List<T>::Iterator::operator != (const Iterator& other) {
+    return ptr != other.ptr;
+}
+
+template<typename T>
+typename List<T>::Iterator List<T>::begin() {
+    return Iterator(head);
+}
+
+template<typename T>
+typename List<T>::Iterator List<T>::end() {
+    return Iterator(nullptr);
 }
 
 // template <typename U>
