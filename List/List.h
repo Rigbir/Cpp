@@ -61,7 +61,6 @@ public:
     bool operator <= (const List<T>& other);
     bool operator >= (const List<T>& other);
 
-
     Iterator begin();
     Iterator end();
 

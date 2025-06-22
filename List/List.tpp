@@ -305,6 +305,74 @@ size_t List<T>::max_size() const {
 }
 
 template<typename T>
+List<T>& List<T>::operator = (const List<T>& other) {
+    if (this == &other) return *this;
+
+    this->clear();
+
+    Node* current = other.head;
+    while (current) {
+        push_back(current->_value);
+        current = current->next;
+    }
+
+    return *this;
+}
+
+template<typename T>
+bool List<T>::operator == (const List<T>& other) {
+    Node* first = this->head;
+    Node* second = other.head;
+
+    while (first != nullptr) {
+        if (first->_value != second->_value) {
+            return false;
+        }
+
+        first = first->next;
+        second = second->next;
+    }
+
+    return first == nullptr && second == nullptr;
+}
+
+template<typename T>
+bool List<T>::operator != (const List<T>& other) {
+    return !(*this == other);
+}
+
+template<typename T>
+bool List<T>::operator < (const List<T>& other) {
+    Node* first = this->head;
+    Node* second = other.head;
+
+    while (first != nullptr && second != nullptr) {
+        if (first->_value > second->_value) return false;
+        if (first->_value < second->_value) return true;
+
+        first = first->next;
+        second = second->next;
+    }
+
+    return first == nullptr && second != nullptr;
+}
+
+template<typename T>
+bool List<T>::operator > (const List<T>& other) {
+    return other < *this;
+}
+
+template<typename T>
+bool List<T>::operator <= (const List<T>& other) {
+    return !(other < *this);
+}
+
+template<typename T>
+bool List<T>::operator >= (const List<T>& other) {
+    return !(*this < other);
+}
+
+template<typename T>
 List<T>::Iterator::Iterator(Node* p)
         : ptr(p) {}
 
@@ -327,21 +395,6 @@ bool List<T>::Iterator::operator != (const Iterator& other) {
 template<typename T>
 bool List<T>::Iterator::operator == (const Iterator& other) {
     return ptr == other.ptr;
-}
-
-template<typename T>
-List<T>& List<T>::operator = (const List<T>& other) {
-    if (this == &other) return *this;
-
-    this->clear();
-
-    Node* current = other.head;
-    while (current) {
-        push_back(current->_value);
-        current = current->next;
-    }
-
-    return *this;
 }
 
 template<typename T>
