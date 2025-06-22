@@ -41,7 +41,7 @@ MyVector<T>::MyVector(const MyVector& other)
 template<typename T>
 MyVector<T>& MyVector<T>::operator = (const MyVector& other) {
     if (this != &other) {
-        int* newArr = new T[other.vecCapacity];
+        T* newArr = new T[other.vecCapacity];
         std::ranges::copy(other.arr, other.arr + other.vecSize, newArr);
 
         delete[] arr;
@@ -128,13 +128,13 @@ void MyVector<T>::shrink_to_fit() noexcept {
 }
 
 template<typename T>
-int& MyVector<T>::at(size_t index) {
+T& MyVector<T>::at(size_t index) {
     checkValidIndex(index);
     return arr[index];
 }
 
 template<typename T>
-const int& MyVector<T>::at(size_t index) const {
+const T& MyVector<T>::at(size_t index) const {
     checkValidIndex(index);
     return arr[index];
 }
@@ -168,7 +168,7 @@ void MyVector<T>::erase(size_t pos) {
 
 template<typename T>
 void MyVector<T>::swap(MyVector& other) noexcept {
-    int* tempArr = arr;
+    T* tempArr = arr;
     size_t tempVecSize = vecSize;
     size_t tempVecCapacity = vecCapacity;
 
@@ -182,23 +182,23 @@ void MyVector<T>::swap(MyVector& other) noexcept {
 }
 
 template<typename T>
-int& MyVector<T>::operator[](size_t index) noexcept {
+T& MyVector<T>::operator[](size_t index) noexcept {
     return arr[index];
 }
 
 template<typename T>
-const int& MyVector<T>::operator[](size_t index) const noexcept {
+const T& MyVector<T>::operator[](size_t index) const noexcept {
     return arr[index];
 }
 
 template<typename T>
-const int& MyVector<T>::front() const {
+const T& MyVector<T>::front() const {
     checkEmpty();
     return arr[0];
 }
 
 template<typename T>
-const int& MyVector<T>::back() const {
+const T& MyVector<T>::back() const {
     checkEmpty();
     return arr[vecSize - 1];
 }
@@ -265,7 +265,7 @@ void MyVector<T>::checkValidIndex(size_t index) const {
 
 template<typename T>
 void MyVector<T>::reallocate(size_t newCapacity) {
-    int* newArr = new int[newCapacity];
+    T* newArr = new T[newCapacity];
 
     for (size_t i = 0; i < vecSize; ++i) {
         newArr[i] = arr[i];

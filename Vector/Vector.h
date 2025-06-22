@@ -27,12 +27,12 @@ public:
     void shrink_to_fit() noexcept;
     void swap(MyVector& other) noexcept;
 
-    int& operator[](size_t index) noexcept;
-    const int& operator[](size_t index) const noexcept;
-    [[nodiscard]] int& at(size_t index);
-    [[nodiscard]] const int& at(size_t index) const;
-    [[nodiscard]] const int& front() const;
-    [[nodiscard]] const int& back() const;
+    T& operator[](size_t index) noexcept;
+    const T& operator[](size_t index) const noexcept;
+    [[nodiscard]] T& at(size_t index);
+    [[nodiscard]] const T& at(size_t index) const;
+    [[nodiscard]] const T& front() const;
+    [[nodiscard]] const T& back() const;
 
     MyVector& operator = (const MyVector& other);
     MyVector& operator = (MyVector&& other) noexcept;
