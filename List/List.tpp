@@ -282,6 +282,96 @@ void List<T>::swap(List<T>& other) noexcept {
 }
 
 template<typename T>
+void List<T>::merge(List<T>& other) {
+
+}
+
+template<typename T>
+void List<T>::splice(Iterator pos, List<T>& other) {
+
+}
+
+template<typename T>
+void List<T>::remove(const T& value) {
+    Node* current = head;
+
+    while (current != nullptr) {
+        if (current->_value == value) {
+            Node* delNode = current;
+            Node* nextNode = current->next;
+
+            if (delNode->prev) {
+                delNode->prev->next = delNode->next;
+            } else {
+                head = delNode->next;
+            }
+
+            if (delNode->next) {
+                delNode->next->prev = delNode->prev;
+            }
+
+            delete delNode;
+            current = nextNode;
+        } else {
+            current = current->next;
+        }
+    }
+}
+
+template<typename T>
+void List<T>::reverse() {
+    Node* current = head;
+
+    while (current->next != nullptr) {
+        current = current->next;
+    }
+
+    while (current->prev != nullptr) {
+        Node* temp = current->prev;
+
+        current->next = temp;
+        current->prev = temp->next->next;
+        current = temp;
+    }
+
+    head = current;
+}
+
+template<typename T>
+void List<T>::unique() {
+    Node* current = head;
+
+    while (current->next != nullptr) {
+        if (current->_value == current->next->_value) {
+            Node* delNode = current->next;
+
+            current->next = delNode->next;
+            if (delNode->next) {
+                delNode->next->prev = current;
+            }
+
+            delete delNode;
+        } else {
+            current = current->next;
+        }
+    }
+}
+
+template<typename T>
+void List<T>::sort() {
+    Node* current = head;
+
+    while (current->next != nullptr) {
+        if (current->_value > current->next->_value) {
+            T temp = current->_value;
+            current->_value = current->next->_value;
+            current->next->_value = temp;
+            current = current->next;
+        }
+    }
+}
+
+template<typename T>
 bool List<T>::empty() const {
     return head == nullptr;
 }
@@ -403,7 +493,17 @@ typename List<T>::Iterator List<T>::begin() {
 }
 
 template<typename T>
+typename List<T>::Iterator List<T>::cbegin() const {
+    return Iterator(head);
+}
+
+template<typename T>
 typename List<T>::Iterator List<T>::end() {
+    return Iterator(nullptr);
+}
+
+template<typename T>
+typename List<T>::Iterator List<T>::cend() const {
     return Iterator(nullptr);
 }
 

@@ -79,7 +79,7 @@ MyVector<T>& MyVector<T>::operator=(MyVector&& other) noexcept {
 }
 
 template<typename T>
-void MyVector<T>::push_back(T value) {
+void MyVector<T>::push_back(const T& value) {
     if (vecSize == vecCapacity) {
         size_t newCapacity = (vecCapacity == 0) ? 1 : vecCapacity * 2;
         reallocate(newCapacity);

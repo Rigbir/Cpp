@@ -112,4 +112,14 @@ int main() {
     l7.print();
     std::cout << "Second: ";
     l8.print();
+
+    List<int> l9 = {8, 1, 5, 1, 1, 1, 4, 1, 2, 19, 19, 19};
+    l9.remove(1);
+    l9.print();
+
+    l9.unique();
+    l9.print();
+
+    l9.reverse();
+    l9.print();
 }

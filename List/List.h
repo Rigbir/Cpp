@@ -49,6 +49,13 @@ public:
     void resize(size_t count);
     void swap(List<T>& other) noexcept;
 
+    void merge(List<T>& other);
+    void splice(Iterator pos, List<T>& other);
+    void remove(const T& value);
+    void reverse();
+    void unique();
+    void sort();
+
     [[nodiscard]] bool empty() const;
     [[nodiscard]] size_t size() const;
     [[nodiscard]] size_t max_size() const;
@@ -62,7 +69,10 @@ public:
     bool operator >= (const List<T>& other);
 
     Iterator begin();
+    Iterator cbegin() const;
     Iterator end();
+    Iterator cend() const;
+
 
     void print();
 
@@ -70,5 +80,3 @@ public:
 };
 
 #include "List.tpp"
-
-

@@ -17,7 +17,7 @@ public:
     MyVector(MyVector&& other) noexcept;
     ~MyVector();
 
-    void push_back(T value);
+    void push_back(const T& value);
     void pop_back();
     void insert(size_t pos, T value);
     void erase(size_t pos);
