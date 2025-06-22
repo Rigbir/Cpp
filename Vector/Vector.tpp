@@ -114,7 +114,7 @@ void MyVector<T>::resize(size_t newSize) {
 
 template<typename T>
 void MyVector<T>::reserve(size_t newCapacity) {
-    if (newCapacity < vecCapacity) {
+    if (newCapacity <= vecCapacity) {
         return;
     }
     reallocate(newCapacity);
@@ -265,13 +265,17 @@ void MyVector<T>::checkValidIndex(size_t index) const {
 
 template<typename T>
 void MyVector<T>::reallocate(size_t newCapacity) {
-    T* newArr = new T[newCapacity];
+    T* newArr = reinterpret_cast<T*>(new char[newCapacity * sizeof(T)]);
 
     for (size_t i = 0; i < vecSize; ++i) {
-        newArr[i] = arr[i];
+        new(newArr + i) T(arr[i]);
     }
 
-    delete[] arr;
+    for (size_t i = 0; i < vecSize; ++i) {
+        (arr + index)->~T();
+    }
+
+    delete[] reinterpret_cast<char*>(arr);
     arr = newArr;
     vecCapacity = newCapacity;
 }
