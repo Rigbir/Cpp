@@ -124,14 +124,22 @@ int main() {
     l9.unique();
     l9.print();
 
-    //l9.reverse();
-    l9.print();
-
     List<int> l10 = {1, 2, 3, 4, 5};
     List<int> l11 = {10, 11, 12};
     auto p = l10.begin();
     ++p;
     ++p;
-    //l10.splice(p, l11);
+
     l10.print();
+    l10.reverse();
+    l10.print();
+
+    //l10.splice(p, l11);
+
+    List<int> l12 = {8, 2, 4, 9, 7};
+    auto begin = l12.begin();
+    auto end = l12.end();
+    l12.print();
+    l12.sort(begin, end);
+    l12.print();
 }

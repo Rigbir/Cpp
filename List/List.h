@@ -21,9 +21,10 @@ public:
     class Iterator {
     private:
         Node* ptr;
+        explicit Iterator(Node* p);
+
         friend class List;
     public:
-        explicit Iterator(Node* p);
         T& operator * ();
         T* operator -> ();
         Iterator& operator ++ ();
@@ -56,7 +57,11 @@ public:
     void remove(const T& value);
     void reverse();
     void unique();
-    void sort();
+
+    void mergeForSort(Iterator beginFirst, Iterator endFirst,
+                      Iterator beginSecond, Iterator endSecond,
+                      Iterator result);
+    void sort(Iterator begin, Iterator end);
 
     [[nodiscard]] bool empty() const;
     [[nodiscard]] size_t size() const;
@@ -74,7 +79,6 @@ public:
     Iterator cbegin() const;
     Iterator end();
     Iterator cend() const;
-
 
     void print();
 

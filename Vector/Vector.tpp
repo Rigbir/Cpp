@@ -182,6 +182,50 @@ void MyVector<T>::swap(MyVector& other) noexcept {
 }
 
 template<typename T>
+void MyVector<T>::merge(iterator beginFirst, iterator endFirst,
+                        iterator beginSecond, iterator endSecond,
+                        iterator result) {
+    while (beginFirst != endFirst && beginSecond != endSecond) {
+        if (*beginFirst < *beginSecond) {
+            *result = *beginFirst;
+            ++beginFirst;
+        } else {
+            *result = *beginSecond;
+            ++beginSecond;
+        }
+        ++result;
+    }
+
+    while (beginFirst != endFirst) {
+        *result = *beginFirst;
+        ++beginFirst;
+        ++result;
+    }
+
+    while (beginSecond != endSecond) {
+        *result = *beginSecond;
+        ++beginSecond;
+        ++result;
+    }
+}
+
+template<typename T>
+void MyVector<T>::sort(iterator begin, iterator end) {
+    auto dist = end.ptr - begin.ptr;
+    if (dist <= 1) return;
+
+    iterator mid = (begin + dist / 2);
+
+    sort(begin, mid);
+    sort(mid, end);
+
+    std::vector<T> temp(dist);
+
+    merge(begin, mid, mid, end, iterator(temp.data()));
+    std::copy(temp.begin(), temp.end(), begin.ptr);
+}
+
+template<typename T>
 T& MyVector<T>::operator[](size_t index) noexcept {
     return arr[index];
 }

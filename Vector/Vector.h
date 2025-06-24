@@ -19,17 +19,18 @@ class MyVector {
 
     private:
         pointer_type ptr;
-        explicit Iterator(T* p);
-
         friend class MyVector<T>;
 
     public:
+        explicit Iterator(pointer_type p);
         Iterator(const Iterator& other) = default;
         Iterator& operator = (const Iterator& other) = default;
         reference_type operator * ();
         pointer_type operator -> ();
         Iterator& operator ++ ();
         Iterator operator ++ (int);
+        Iterator operator + (size_t n) const;
+        Iterator operator - (size_t n) const;
         bool operator == (const Iterator& other);
         bool operator != (const Iterator& other);
         explicit operator Iterator<true>() const;
@@ -60,6 +61,10 @@ public:
     void reserve(size_t newCapacity);
     void shrink_to_fit() noexcept;
     void swap(MyVector& other) noexcept;
+    void merge(iterator beginFirst, iterator endFirst,
+               iterator beginSecond, iterator endSecond,
+               iterator result);
+    void sort(iterator begin, iterator end);
 
     T& operator[](size_t index) noexcept;
     const T& operator[](size_t index) const noexcept;

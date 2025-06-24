@@ -97,6 +97,11 @@ int main() {
     }
     std::cout << '\n';
 
+    MyVector<int> vec9 = {8, 2, 9, 4, 7};
+    vec9.print();
+    vec9.sort(vec9.begin(), vec9.end());
+    vec9.print();
+
     auto end = std::chrono::high_resolution_clock::now();
     std::cout << std::chrono::duration<double>(end - start).count() << "s\n";
 }

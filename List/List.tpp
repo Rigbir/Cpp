@@ -283,8 +283,6 @@ void List<T>::swap(List<T>& other) noexcept {
 
 template<typename T>
 void List<T>::merge(List<T>& other) {
-    Node* current = head;
-
 
 }
 
@@ -338,7 +336,20 @@ void List<T>::remove(const T& value) {
 
 template<typename T>
 void List<T>::reverse() {
+    Node* current = head;
+    Node* temp = nullptr;
 
+    while (current != nullptr) {
+        temp = current->prev;
+        current->prev = current->next;
+        current->next = temp;
+
+        current = current->prev;
+    }
+
+    if (temp != nullptr) {
+        head = temp->prev;
+    }
 }
 
 template<typename T>
@@ -362,8 +373,61 @@ void List<T>::unique() {
 }
 
 template<typename T>
-void List<T>::sort() {
+void List<T>::mergeForSort(Iterator beginFirst, Iterator endFirst,
+                           Iterator beginSecond, Iterator endSecond,
+                           Iterator result) {
+    Node* first = beginFirst.ptr;
+    Node* firstEnd = endFirst.ptr;
+    Node* second = beginSecond.ptr;
+    Node* secondEnd = endSecond.ptr;
+    Node* output = result.ptr;
 
+    while (first != firstEnd && second != secondEnd) {
+        if (first->_value < second->_value) {
+            output->_value = first->_value;
+            first = first->next;
+        } else {
+            output->_value = second->_value;
+            second = second->next;
+        }
+        output = output->next;
+    }
+
+    while (first != firstEnd) {
+        output->_value = first->_value;
+        first = first->next;
+        output = output->next;
+    }
+
+    while (second != secondEnd) {
+        output->_value = second->_value;
+        second = second->next;
+        output = output->next;
+    }
+}
+
+
+template<typename T>
+void List<T>::sort(Iterator begin, Iterator end) {
+    if (begin == end) return;
+    Node* nodeBegin = begin.ptr;
+    Node* nodeEnd = end.ptr;
+
+    Iterator nextBegin = begin;
+    ++nextBegin;
+    if (nextBegin == end) return;
+
+    Node* slow = begin.ptr;
+    Node* fast = begin.ptr;
+    while (fast != end.ptr && fast->next != end.ptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    Iterator mid(slow);
+    sort(begin, mid);
+    sort(mid, end);
+    mergeForSort(begin, mid, mid, end, begin);
 }
 
 template<typename T>

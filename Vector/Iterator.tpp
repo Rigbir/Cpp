@@ -6,7 +6,7 @@
 
 template <typename T>
 template<bool isConst>
-MyVector<T>::Iterator<isConst>::Iterator(T* p) : ptr(p) {}
+MyVector<T>::Iterator<isConst>::Iterator(pointer_type p) : ptr(p) {}
 
 template <typename T>
 template<bool isConst>
@@ -37,6 +37,20 @@ MyVector<T>::Iterator<isConst>::operator ++ (int) {
     Iterator copy = *this;
     ++ptr;
     return copy;
+}
+
+template <typename T>
+template<bool isConst>
+typename MyVector<T>::template Iterator<isConst>
+MyVector<T>::Iterator<isConst>::operator + (size_t n) const {
+    return Iterator(ptr + n);
+}
+
+template <typename T>
+template<bool isConst>
+typename MyVector<T>::template Iterator<isConst>
+MyVector<T>::Iterator<isConst>::operator - (size_t n) const {
+    return Iterator(ptr - n);
 }
 
 template<typename T>
