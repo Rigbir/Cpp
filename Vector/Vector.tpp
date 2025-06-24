@@ -215,23 +215,43 @@ bool MyVector<T>::operator != (const MyVector& other) const {
 }
 
 template<typename T>
-T* MyVector<T>::begin() noexcept {
-    return arr;
+typename MyVector<T>::iterator MyVector<T>::begin() noexcept {
+    return iterator(arr);
 }
 
 template<typename T>
-T* MyVector<T>::end() noexcept {
-    return arr + vecSize;
+typename MyVector<T>::iterator MyVector<T>::end() noexcept {
+    return iterator(arr + vecSize);
 }
 
 template<typename T>
-const T* MyVector<T>::begin() const noexcept {
-    return arr;
+typename MyVector<T>::const_iterator MyVector<T>::cbegin() const noexcept {
+    return const_iterator(arr);
 }
 
 template<typename T>
-const T* MyVector<T>::end() const noexcept {
-    return arr + vecSize;
+typename MyVector<T>::const_iterator MyVector<T>::cend() const noexcept {
+    return const_iterator(arr + vecSize);
+}
+
+template<typename T>
+typename MyVector<T>::reverse_iterator MyVector<T>::rbegin() noexcept {
+    return reverse_iterator(arr);
+}
+
+template<typename T>
+typename MyVector<T>::reverse_iterator MyVector<T>::rend() noexcept {
+    return reverse_iterator(arr + vecSize);
+}
+
+template<typename T>
+typename MyVector<T>::const_reverse_iterator MyVector<T>::crbegin() const noexcept {
+    return const_reverse_iterator(arr);
+}
+
+template<typename T>
+typename MyVector<T>::const_reverse_iterator MyVector<T>::crend() const noexcept {
+    return const_reverse_iterator(arr + vecSize);
 }
 
 template<typename T>
@@ -272,7 +292,7 @@ void MyVector<T>::reallocate(size_t newCapacity) {
     }
 
     for (size_t i = 0; i < vecSize; ++i) {
-        (arr + index)->~T();
+        (arr + i)->~T();
     }
 
     delete[] reinterpret_cast<char*>(arr);

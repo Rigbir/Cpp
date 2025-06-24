@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(Vector Vector.tpp
+        Iterator.tpp
         Vector.h
         main.cpp)
 add_executable(Test main.cpp)

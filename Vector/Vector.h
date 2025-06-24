@@ -3,18 +3,52 @@
 //
 
 #pragma once
+#include <type_traits>
 #include <initializer_list>
+#include <iterator>
 
 template<typename T>
 class MyVector {
+
+    template<bool isConst>
+    class Iterator {
+    public:
+        using pointer_type = std::conditional_t<isConst, const T*, T*>;
+        using reference_type = std::conditional_t<isConst, const T&, T&>;
+        using value_type = T;
+
+    private:
+        pointer_type ptr;
+        explicit Iterator(T* p);
+
+        friend class MyVector<T>;
+
+    public:
+        Iterator(const Iterator& other) = default;
+        Iterator& operator = (const Iterator& other) = default;
+        reference_type operator * ();
+        pointer_type operator -> ();
+        Iterator& operator ++ ();
+        Iterator operator ++ (int);
+        bool operator == (const Iterator& other);
+        bool operator != (const Iterator& other);
+        explicit operator Iterator<true>() const;
+    };
+
 public:
+    using iterator = Iterator<false>;
+    using const_iterator = Iterator<true>;
+    using reverse_iterator = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
     MyVector() = default;
 
     explicit MyVector(size_t size, T value);
     MyVector(std::initializer_list<T> list);
-
     MyVector(const MyVector& other);
     MyVector(MyVector&& other) noexcept;
+    MyVector& operator = (const MyVector& other);
+    MyVector& operator = (MyVector&& other) noexcept;
     ~MyVector();
 
     void push_back(const T& value);
@@ -34,16 +68,17 @@ public:
     [[nodiscard]] const T& front() const;
     [[nodiscard]] const T& back() const;
 
-    MyVector& operator = (const MyVector& other);
-    MyVector& operator = (MyVector&& other) noexcept;
-
     bool operator == (const MyVector& other) const;
     bool operator != (const MyVector& other) const;
 
-    T* begin() noexcept;
-    T* end() noexcept;
-    const T* begin() const noexcept;
-    const T* end() const noexcept;
+    iterator begin() noexcept;
+    iterator end() noexcept;
+    const_iterator cbegin() const noexcept;
+    const_iterator cend() const noexcept;
+    reverse_iterator rbegin() noexcept;
+    reverse_iterator rend() noexcept;
+    const_reverse_iterator crbegin() const noexcept;
+    const_reverse_iterator crend() const noexcept;
 
     [[nodiscard]] size_t size() const noexcept;
     [[nodiscard]] size_t capacity() const noexcept;
@@ -61,4 +96,5 @@ private:
     void reallocate(size_t newCapacity);
 };
 
+#include "Iterator.tpp"
 #include "Vector.tpp"

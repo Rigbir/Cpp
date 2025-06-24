@@ -25,7 +25,9 @@ public:
     public:
         explicit Iterator(Node* p);
         T& operator * ();
+        T* operator -> ();
         Iterator& operator ++ ();
+        Iterator operator ++ (int);
         bool operator != (const Iterator& other);
         bool operator == (const Iterator& other);
     };

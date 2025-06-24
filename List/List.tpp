@@ -283,12 +283,30 @@ void List<T>::swap(List<T>& other) noexcept {
 
 template<typename T>
 void List<T>::merge(List<T>& other) {
+    Node* current = head;
+
 
 }
 
 template<typename T>
 void List<T>::splice(Iterator pos, List<T>& other) {
+    Node* nodePtr = pos.ptr;
+    Node* current = head;
 
+    while (current->next != nodePtr) {
+        current = current->next;
+    }
+
+    Node* nodeNext = current->next;
+    current->next = other.head;
+    other.head->prev = current;
+
+    Node* otherCurrent = other.head;
+    while (otherCurrent->next != nullptr) {
+        otherCurrent = otherCurrent->next;
+    }
+
+    otherCurrent->next = nodeNext;
 }
 
 template<typename T>
@@ -320,21 +338,7 @@ void List<T>::remove(const T& value) {
 
 template<typename T>
 void List<T>::reverse() {
-    Node* current = head;
 
-    while (current->next != nullptr) {
-        current = current->next;
-    }
-
-    while (current->prev != nullptr) {
-        Node* temp = current->prev;
-
-        current->next = temp;
-        current->prev = temp->next->next;
-        current = temp;
-    }
-
-    head = current;
 }
 
 template<typename T>
@@ -359,16 +363,7 @@ void List<T>::unique() {
 
 template<typename T>
 void List<T>::sort() {
-    Node* current = head;
 
-    while (current->next != nullptr) {
-        if (current->_value > current->next->_value) {
-            T temp = current->_value;
-            current->_value = current->next->_value;
-            current->next->_value = temp;
-            current = current->next;
-        }
-    }
 }
 
 template<typename T>
@@ -472,9 +467,21 @@ T& List<T>::Iterator::operator * () {
 }
 
 template<typename T>
+T *List<T>::Iterator::operator -> () {
+    return ptr;
+}
+
+template<typename T>
 typename List<T>::Iterator& List<T>::Iterator::operator ++ () {
     ptr = ptr->next;
     return *this;
+}
+
+template<typename T>
+typename List<T>::Iterator List<T>::Iterator::operator ++ (int) {
+    Iterator copy = *this;
+    ptr = ptr->next;
+    return copy;
 }
 
 template<typename T>

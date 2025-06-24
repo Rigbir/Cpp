@@ -5,6 +5,10 @@
 #include "List.h"
 #include <iostream>
 
+struct point {
+    int x, y;
+};
+
 int main() {
 
     List<int> l = {1, 2, 3};
@@ -120,6 +124,14 @@ int main() {
     l9.unique();
     l9.print();
 
-    l9.reverse();
+    //l9.reverse();
     l9.print();
+
+    List<int> l10 = {1, 2, 3, 4, 5};
+    List<int> l11 = {10, 11, 12};
+    auto p = l10.begin();
+    ++p;
+    ++p;
+    //l10.splice(p, l11);
+    l10.print();
 }

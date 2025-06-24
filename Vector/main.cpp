@@ -91,7 +91,8 @@ int main() {
 
     MyVector<std::string> vec8 = {"some", "test"};
     vec8.print();
-    for (int* i = vec.begin(); i != vec.end(); ++i) {
+
+    for (MyVector<int>::iterator i = vec.begin(); i != vec.end(); ++i) {
         std::cout << *i << ' ';
     }
     std::cout << '\n';
