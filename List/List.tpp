@@ -5,21 +5,21 @@
 #pragma once
 
 template<typename T>
-List<T>::Node::Node(const T& value)
+MyList<T>::Node::Node(const T& value)
         :  _value(value)
         , next(nullptr)
         , prev(nullptr) {}
 
 template<typename T>
-List<T>::List()
+MyList<T>::MyList()
         : head(nullptr) {}
 
 template<typename T>
-List<T>::List(const T& value)
+MyList<T>::MyList(const T& value)
         : head(new Node(value)) {}
 
 template<typename T>
-List<T>::List(size_t count, const T& value)
+MyList<T>::MyList(size_t count, const T& value)
         : head(new Node(value)) {
     Node* current = head;
 
@@ -34,18 +34,18 @@ List<T>::List(size_t count, const T& value)
 }
 
 template<typename T>
-List<T>::List(std::initializer_list<T> list) {
-    if (list.size() == 0) {
+MyList<T>::MyList(std::initializer_list<T> MyList) {
+    if (MyList.size() == 0) {
         head = nullptr;
         return;
     }
 
-    auto it = list.begin();
+    auto it = MyList.begin();
     head = new Node(*it);
     Node* current = head;
 
     ++it;
-    for (; it != list.end(); ++it) {
+    for (; it != MyList.end(); ++it) {
         Node* newNode = new Node(*it);
         newNode->next = nullptr;
         newNode->prev = current;
@@ -56,7 +56,7 @@ List<T>::List(std::initializer_list<T> list) {
 }
 
 template<typename T>
-List<T>::List(const List<T>& other) {
+MyList<T>::MyList(const MyList<T>& other) {
     if (other.head == nullptr) {
         head = nullptr;
         return;
@@ -79,13 +79,13 @@ List<T>::List(const List<T>& other) {
 }
 
 template<typename T>
-List<T>::List(List<T>&& other) noexcept
+MyList<T>::MyList(MyList<T>&& other) noexcept
         : head(other.head) {
     other.head = nullptr;
 }
 
 template<typename T>
-void List<T>::clear() {
+void MyList<T>::clear() {
     Node* current = head;
 
     while (current != nullptr) {
@@ -98,7 +98,7 @@ void List<T>::clear() {
 }
 
 template<typename T>
-typename List<T>::Node* List<T>::insert(Iterator pos, const T& value) {
+typename MyList<T>::Node* MyList<T>::insert(Iterator pos, const T& value) {
     Node* nodePos = pos.ptr;
 
     if (nodePos == nullptr) {
@@ -133,11 +133,11 @@ typename List<T>::Node* List<T>::insert(Iterator pos, const T& value) {
 }
 
 template<typename T>
-typename List<T>::Node* List<T>::erase(Iterator pos) {
+typename MyList<T>::Node* MyList<T>::erase(Iterator pos) {
     Node* nodePos = pos.ptr;
 
     if (head == nullptr || nodePos == nullptr) {
-        throw std::invalid_argument("List empty!");
+        throw std::invalid_argument("MyList empty!");
     }
 
     if (nodePos == head) {
@@ -159,7 +159,7 @@ typename List<T>::Node* List<T>::erase(Iterator pos) {
 }
 
 template<typename T>
-void List<T>::push_back(const T& value) {
+void MyList<T>::push_back(const T& value) {
     if (head == nullptr) {
         head = new Node(value);
         return;
@@ -179,7 +179,7 @@ void List<T>::push_back(const T& value) {
 }
 
 template<typename T>
-void List<T>::pop_back() {
+void MyList<T>::pop_back() {
     if (!head) return;
 
     if (head->next == nullptr) {
@@ -199,7 +199,7 @@ void List<T>::pop_back() {
 }
 
 template<typename T>
-void List<T>::push_front(const T& value) {
+void MyList<T>::push_front(const T& value) {
     if (head == nullptr) {
         head = new Node(value);
         return;
@@ -214,7 +214,7 @@ void List<T>::push_front(const T& value) {
 }
 
 template<typename T>
-void List<T>::pop_front() {
+void MyList<T>::pop_front() {
     if (head == nullptr) {
         return;
     }
@@ -227,7 +227,7 @@ void List<T>::pop_front() {
 }
 
 template<typename T>
-void List<T>::resize(size_t count) {
+void MyList<T>::resize(size_t count) {
     size_t currentCount = size();
 
     if (currentCount == count) {
@@ -275,19 +275,19 @@ void List<T>::resize(size_t count) {
 }
 
 template<typename T>
-void List<T>::swap(List<T>& other) noexcept {
+void MyList<T>::swap(MyList<T>& other) noexcept {
     Node* temp = this->head;
     this->head = other.head;
     other.head = temp;
 }
 
 template<typename T>
-void List<T>::merge(List<T>& other) {
+void MyList<T>::merge(MyList<T>& other) {
 
 }
 
 template<typename T>
-void List<T>::splice(Iterator pos, List<T>& other) {
+void MyList<T>::splice(Iterator pos, MyList<T>& other) {
     Node* nodePtr = pos.ptr;
     Node* current = head;
 
@@ -308,7 +308,7 @@ void List<T>::splice(Iterator pos, List<T>& other) {
 }
 
 template<typename T>
-void List<T>::remove(const T& value) {
+void MyList<T>::remove(const T& value) {
     Node* current = head;
 
     while (current != nullptr) {
@@ -335,7 +335,7 @@ void List<T>::remove(const T& value) {
 }
 
 template<typename T>
-void List<T>::reverse() {
+void MyList<T>::reverse() {
     Node* current = head;
     Node* temp = nullptr;
 
@@ -353,7 +353,7 @@ void List<T>::reverse() {
 }
 
 template<typename T>
-void List<T>::unique() {
+void MyList<T>::unique() {
     Node* current = head;
 
     while (current->next != nullptr) {
@@ -373,7 +373,7 @@ void List<T>::unique() {
 }
 
 template<typename T>
-void List<T>::mergeForSort(Iterator beginFirst, Iterator endFirst,
+void MyList<T>::mergeForSort(Iterator beginFirst, Iterator endFirst,
                            Iterator beginSecond, Iterator endSecond,
                            Iterator result) {
     Node* first = beginFirst.ptr;
@@ -408,7 +408,7 @@ void List<T>::mergeForSort(Iterator beginFirst, Iterator endFirst,
 
 
 template<typename T>
-void List<T>::sort(Iterator begin, Iterator end) {
+void MyList<T>::sort(Iterator begin, Iterator end) {
     if (begin == end) return;
     Node* nodeBegin = begin.ptr;
     Node* nodeEnd = end.ptr;
@@ -431,12 +431,12 @@ void List<T>::sort(Iterator begin, Iterator end) {
 }
 
 template<typename T>
-bool List<T>::empty() const {
+bool MyList<T>::empty() const {
     return head == nullptr;
 }
 
 template<typename T>
-size_t List<T>::size() const {
+size_t MyList<T>::size() const {
     size_t count = 0;
     Node* current = head;
 
@@ -449,12 +449,12 @@ size_t List<T>::size() const {
 }
 
 template<typename T>
-size_t List<T>::max_size() const {
+size_t MyList<T>::max_size() const {
     return std::numeric_limits<size_t>::max() / sizeof(Node);
 }
 
 template<typename T>
-List<T>& List<T>::operator = (const List<T>& other) {
+MyList<T>& MyList<T>::operator = (const MyList<T>& other) {
     if (this == &other) return *this;
 
     this->clear();
@@ -469,7 +469,7 @@ List<T>& List<T>::operator = (const List<T>& other) {
 }
 
 template<typename T>
-bool List<T>::operator == (const List<T>& other) {
+bool MyList<T>::operator == (const MyList<T>& other) {
     Node* first = this->head;
     Node* second = other.head;
 
@@ -486,12 +486,12 @@ bool List<T>::operator == (const List<T>& other) {
 }
 
 template<typename T>
-bool List<T>::operator != (const List<T>& other) {
+bool MyList<T>::operator != (const MyList<T>& other) {
     return !(*this == other);
 }
 
 template<typename T>
-bool List<T>::operator < (const List<T>& other) {
+bool MyList<T>::operator < (const MyList<T>& other) {
     Node* first = this->head;
     Node* second = other.head;
 
@@ -507,79 +507,79 @@ bool List<T>::operator < (const List<T>& other) {
 }
 
 template<typename T>
-bool List<T>::operator > (const List<T>& other) {
+bool MyList<T>::operator > (const MyList<T>& other) {
     return other < *this;
 }
 
 template<typename T>
-bool List<T>::operator <= (const List<T>& other) {
+bool MyList<T>::operator <= (const MyList<T>& other) {
     return !(other < *this);
 }
 
 template<typename T>
-bool List<T>::operator >= (const List<T>& other) {
+bool MyList<T>::operator >= (const MyList<T>& other) {
     return !(*this < other);
 }
 
 template<typename T>
-List<T>::Iterator::Iterator(Node* p)
+MyList<T>::Iterator::Iterator(Node* p)
         : ptr(p) {}
 
 template<typename T>
-T& List<T>::Iterator::operator * () {
+T& MyList<T>::Iterator::operator * () {
     return ptr->_value;
 }
 
 template<typename T>
-T *List<T>::Iterator::operator -> () {
+T *MyList<T>::Iterator::operator -> () {
     return ptr;
 }
 
 template<typename T>
-typename List<T>::Iterator& List<T>::Iterator::operator ++ () {
+typename MyList<T>::Iterator& MyList<T>::Iterator::operator ++ () {
     ptr = ptr->next;
     return *this;
 }
 
 template<typename T>
-typename List<T>::Iterator List<T>::Iterator::operator ++ (int) {
+typename MyList<T>::Iterator MyList<T>::Iterator::operator ++ (int) {
     Iterator copy = *this;
     ptr = ptr->next;
     return copy;
 }
 
 template<typename T>
-bool List<T>::Iterator::operator != (const Iterator& other) {
+bool MyList<T>::Iterator::operator != (const Iterator& other) {
     return ptr != other.ptr;
 }
 
 template<typename T>
-bool List<T>::Iterator::operator == (const Iterator& other) {
+bool MyList<T>::Iterator::operator == (const Iterator& other) {
     return ptr == other.ptr;
 }
 
 template<typename T>
-typename List<T>::Iterator List<T>::begin() {
+typename MyList<T>::Iterator MyList<T>::begin() {
     return Iterator(head);
 }
 
 template<typename T>
-typename List<T>::Iterator List<T>::cbegin() const {
+typename MyList<T>::Iterator MyList<T>::cbegin() const {
     return Iterator(head);
 }
 
 template<typename T>
-typename List<T>::Iterator List<T>::end() {
+typename MyList<T>::Iterator MyList<T>::end() {
     return Iterator(nullptr);
 }
 
 template<typename T>
-typename List<T>::Iterator List<T>::cend() const {
+typename MyList<T>::Iterator MyList<T>::cend() const {
     return Iterator(nullptr);
 }
 
 template<typename T>
-void List<T>::print() {
+void MyList<T>::print() {
     Node* current = head;
     while (current != nullptr) {
         std::cout << current->_value << ' ';
@@ -589,6 +589,6 @@ void List<T>::print() {
 }
 
 template<typename T>
-List<T>::~List() {
+MyList<T>::~MyList() {
     clear();
 }

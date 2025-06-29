@@ -8,7 +8,7 @@
 #include <initializer_list>
 
 template<typename T>
-class List {
+class MyList {
 public:
     struct Node {
         T _value;
@@ -23,7 +23,7 @@ public:
         Node* ptr;
         explicit Iterator(Node* p);
 
-        friend class List;
+        friend class MyList;
     public:
         T& operator * ();
         T* operator -> ();
@@ -35,12 +35,12 @@ public:
 
 public:
 
-    List();
-    explicit List(const T& value);
-    explicit List(size_t count, const T& value);
-    List(std::initializer_list<T> list);
-    List(const List<T>& other);
-    List(List<T>&& other) noexcept;
+    MyList();
+    explicit MyList(const T& value);
+    explicit MyList(size_t count, const T& value);
+    MyList(std::initializer_list<T> MyList);
+    MyList(const MyList<T>& other);
+    MyList(MyList<T>&& other) noexcept;
 
     void clear();
     Node* insert(Iterator pos, const T& value);
@@ -50,10 +50,10 @@ public:
     void push_front(const T& value);
     void pop_front();
     void resize(size_t count);
-    void swap(List<T>& other) noexcept;
+    void swap(MyList<T>& other) noexcept;
 
-    void merge(List<T>& other);
-    void splice(Iterator pos, List<T>& other);
+    void merge(MyList<T>& other);
+    void splice(Iterator pos, MyList<T>& other);
     void remove(const T& value);
     void reverse();
     void unique();
@@ -67,13 +67,13 @@ public:
     [[nodiscard]] size_t size() const;
     [[nodiscard]] size_t max_size() const;
 
-    List<T>& operator = (const List<T>& other);
-    bool operator == (const List<T>& other);
-    bool operator != (const List<T>& other);
-    bool operator < (const List<T>& other);
-    bool operator > (const List<T>& other);
-    bool operator <= (const List<T>& other);
-    bool operator >= (const List<T>& other);
+    MyList<T>& operator = (const MyList<T>& other);
+    bool operator == (const MyList<T>& other);
+    bool operator != (const MyList<T>& other);
+    bool operator < (const MyList<T>& other);
+    bool operator > (const MyList<T>& other);
+    bool operator <= (const MyList<T>& other);
+    bool operator >= (const MyList<T>& other);
 
     Iterator begin();
     Iterator cbegin() const;
@@ -82,7 +82,7 @@ public:
 
     void print();
 
-    ~List();
+    ~MyList();
 };
 
 #include "List.tpp"

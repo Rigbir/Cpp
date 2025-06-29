@@ -11,8 +11,8 @@ struct point {
 
 int main() {
 
-    List<int> l = {1, 2, 3};
-    List<std::string> ls = {"some", "string"};
+    MyList<int> l = {1, 2, 3};
+    MyList<std::string> ls = {"some", "string"};
 
     l.print();
     ls.print();
@@ -20,32 +20,32 @@ int main() {
     l.push_back(4);
     l.print();
 
-    List<int> l2(4, 1);
+    MyList<int> l2(4, 1);
     l2.print();
 
-    List<int> l3 = l;
+    MyList<int> l3 = l;
     l3.print();
 
-    List<int> l4 = std::move(l3);
+    MyList<int> l4 = std::move(l3);
     l4.print();
 
     std::cout << std::boolalpha << l4.empty() << '\n';
     l4.clear();
     std::cout << std::boolalpha << l4.empty() << '\n';
 
-    std::cout << "List before pop_back(): ";
+    std::cout << "MyList before pop_back(): ";
     l.print();
     l.pop_back();
 
-    std::cout << "List after pop_back(): ";
+    std::cout << "MyList after pop_back(): ";
     l.print();
 
-    List<int> l5 = {1};
+    MyList<int> l5 = {1};
     l5.print();
     l5.pop_back();
     std::cout << std::boolalpha << l5.empty() << '\n';
 
-    List<int> l6;
+    MyList<int> l6;
     l6.push_back(2);
     l6.print();
 
@@ -71,7 +71,7 @@ int main() {
     l.resize(1);
     l.print();
 
-    List<int> l7 = {1, 2, 3, 8};
+    MyList<int> l7 = {1, 2, 3, 8};
     auto it = l7.begin();
     std::cout << *it << '\n';
 
@@ -84,7 +84,7 @@ int main() {
     }
     std::cout << '\n';
 
-    List<int> l8 = {1, 2, 3};
+    MyList<int> l8 = {1, 2, 3};
     auto pos = l8.begin();
     //++pos;
 
@@ -103,7 +103,7 @@ int main() {
     l8.insert(l8.begin(), 9);
     l8.print();
 
-    std::cout << "List before swap: ";
+    std::cout << "MyList before swap: ";
     std::cout << "First: ";
     l7.print();
     std::cout << "Second: ";
@@ -111,21 +111,21 @@ int main() {
 
     l7.swap(l8);
 
-    std::cout << "List after swap: " << '\n';
+    std::cout << "MyList after swap: " << '\n';
     std::cout << "First: ";
     l7.print();
     std::cout << "Second: ";
     l8.print();
 
-    List<int> l9 = {8, 1, 5, 1, 1, 1, 4, 1, 2, 19, 19, 19};
+    MyList<int> l9 = {8, 1, 5, 1, 1, 1, 4, 1, 2, 19, 19, 19};
     l9.remove(1);
     l9.print();
 
     l9.unique();
     l9.print();
 
-    List<int> l10 = {1, 2, 3, 4, 5};
-    List<int> l11 = {10, 11, 12};
+    MyList<int> l10 = {1, 2, 3, 4, 5};
+    MyList<int> l11 = {10, 11, 12};
     auto p = l10.begin();
     ++p;
     ++p;
@@ -136,7 +136,7 @@ int main() {
 
     //l10.splice(p, l11);
 
-    List<int> l12 = {8, 2, 4, 9, 7};
+    MyList<int> l12 = {8, 2, 4, 9, 7};
     auto begin = l12.begin();
     auto end = l12.end();
     l12.print();
