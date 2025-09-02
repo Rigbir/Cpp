@@ -4,69 +4,69 @@
 
 #pragma once
 
-template <typename T>
+template <typename T, typename Alloc>
 template<bool isConst>
-MyVector<T>::Iterator<isConst>::Iterator(pointer_type p) : ptr(p) {}
+MyVector<T, Alloc>::Iterator<isConst>::Iterator(pointer_type p) : ptr(p) {}
 
-template <typename T>
+template <typename T, typename Alloc>
 template<bool isConst>
-typename MyVector<T>::template Iterator<isConst>::reference_type
-MyVector<T>::Iterator<isConst>::operator * () {
+typename MyVector<T, Alloc>::template Iterator<isConst>::reference_type
+MyVector<T, Alloc>::Iterator<isConst>::operator * () {
     return *ptr;
 }
 
-template <typename T>
+template <typename T, typename Alloc>
 template<bool isConst>
-typename MyVector<T>::template Iterator<isConst>::pointer_type
-MyVector<T>::Iterator<isConst>::operator -> () {
+typename MyVector<T, Alloc>::template Iterator<isConst>::pointer_type
+MyVector<T, Alloc>::Iterator<isConst>::operator -> () {
     return ptr;
 }
 
-template <typename T>
+template <typename T, typename Alloc>
 template<bool isConst>
-typename MyVector<T>::template Iterator<isConst>&
-MyVector<T>::Iterator<isConst>::operator ++ () {
+typename MyVector<T, Alloc>::template Iterator<isConst>&
+MyVector<T, Alloc>::Iterator<isConst>::operator ++ () {
     ++ptr;
     return *this;
 }
 
-template <typename T>
+template <typename T, typename Alloc>
 template<bool isConst>
-typename MyVector<T>::template Iterator<isConst>
-MyVector<T>::Iterator<isConst>::operator ++ (int) {
+typename MyVector<T, Alloc>::template Iterator<isConst>
+MyVector<T, Alloc>::Iterator<isConst>::operator ++ (int) {
     Iterator copy = *this;
     ++ptr;
     return copy;
 }
 
-template <typename T>
+template <typename T, typename Alloc>
 template<bool isConst>
-typename MyVector<T>::template Iterator<isConst>
-MyVector<T>::Iterator<isConst>::operator + (size_t n) const {
+typename MyVector<T, Alloc>::template Iterator<isConst>
+MyVector<T, Alloc>::Iterator<isConst>::operator + (size_t n) const {
     return Iterator(ptr + n);
 }
 
-template <typename T>
+template <typename T, typename Alloc>
 template<bool isConst>
-typename MyVector<T>::template Iterator<isConst>
-MyVector<T>::Iterator<isConst>::operator - (size_t n) const {
+typename MyVector<T, Alloc>::template Iterator<isConst>
+MyVector<T, Alloc>::Iterator<isConst>::operator - (size_t n) const {
     return Iterator(ptr - n);
 }
 
-template<typename T>
+template<typename T, typename Alloc>
 template<bool isConst>
-bool MyVector<T>::Iterator<isConst>::operator == (const Iterator<isConst>& other) {
+bool MyVector<T, Alloc>::Iterator<isConst>::operator == (const Iterator<isConst>& other) {
     return ptr == other.ptr;
 }
 
-template<typename T>
+template<typename T, typename Alloc>
 template<bool isConst>
-bool MyVector<T>::Iterator<isConst>::operator != (const Iterator<isConst>& other) {
+bool MyVector<T, Alloc>::Iterator<isConst>::operator != (const Iterator<isConst>& other) {
     return ptr != other.ptr;
 }
 
-template<typename T>
+template<typename T, typename Alloc>
 template<bool isConst>
-MyVector<T>::Iterator<isConst>::operator MyVector<T>::Iterator<true>() const {
-    return MyVector<T>::Iterator<true>(ptr);
+MyVector<T, Alloc>::Iterator<isConst>::operator MyVector<T, Alloc>::Iterator<true>() const {
+    return MyVector<T, Alloc>::Iterator<true>(ptr);
 }

@@ -7,7 +7,7 @@
 #include <initializer_list>
 #include <iterator>
 
-template<typename T>
+template<typename T, typename Alloc = std::allocator<T>>
 class MyVector {
 
     template<bool isConst>
@@ -95,6 +95,7 @@ private:
     T* arr = nullptr;
     size_t vecSize = 0;
     size_t vecCapacity = 0;
+    Alloc allocator;
 
     void checkEmpty() const;
     void checkValidIndex(size_t index) const;
