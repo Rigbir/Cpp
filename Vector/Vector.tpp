@@ -134,6 +134,10 @@ MyVector<T, Alloc>& MyVector<T, Alloc>::operator=(MyVector&& other) noexcept {
             std::allocator_traits<Alloc>::deallocate(allocator, arr, vecCapacity);
         }
 
+        if (std::allocator_traits<Alloc>::propagate_on_container_move_assignment::value) {
+            allocator = std::move(other.allocator);
+        }
+
         arr = other.arr;
         vecSize = other.vecSize;
         vecCapacity = other.vecCapacity;
