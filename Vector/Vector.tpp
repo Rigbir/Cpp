@@ -81,18 +81,22 @@ MyVector<T, Alloc>::MyVector(const MyVector& other)
 template<typename T, typename Alloc>
 MyVector<T, Alloc>& MyVector<T, Alloc>::operator = (const MyVector& other) {
     if (this != &other) {
-        T* newArr = std::allocator_traits<Alloc>::allocate(allocator, other.vecCapacity);
+        Alloc newAllocator = std::allocator_traits<Alloc>::propagate_on_container_copy_assignment::value
+                             ? other.allocator
+                             : allocator;
+
+        T* newArr = std::allocator_traits<Alloc>::allocate(newAllocator, other.vecCapacity);
 
         size_t index = 0;
         try {
             for (; index < other.vecSize; ++index) {
-                std::allocator_traits<Alloc>::construct(allocator, newArr + index, other.arr[index]);
+                std::allocator_traits<Alloc>::construct(newAllocator, newArr + index, other.arr[index]);
             }
         } catch (...) {
             for (size_t oldIndex = 0; oldIndex < index; ++oldIndex) {
-                std::allocator_traits<Alloc>::destroy(allocator, newArr + oldIndex);
+                std::allocator_traits<Alloc>::destroy(newAllocator, newArr + oldIndex);
             }
-            std::allocator_traits<Alloc>::deallocate(allocator, newArr, other.vecCapacity);
+            std::allocator_traits<Alloc>::deallocate(newAllocator, newArr, other.vecCapacity);
             throw;
         }
 
@@ -101,6 +105,7 @@ MyVector<T, Alloc>& MyVector<T, Alloc>::operator = (const MyVector& other) {
         }
         std::allocator_traits<Alloc>::deallocate(allocator, arr, vecCapacity);
 
+        allocator = newAllocator;
         arr = newArr;
         vecSize = other.vecSize;
         vecCapacity = other.vecCapacity;
