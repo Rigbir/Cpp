@@ -16,35 +16,90 @@
 
 template<typename T, typename Alloc>
 MyVector<T, Alloc>::MyVector(size_t size, T value)
-        : arr(new T[size * 2])
+        : allocator()
+        , arr(std::allocator_traits<Alloc>::allocate(allocator, size * 2))
         , vecSize(size)
         , vecCapacity(size * 2) {
-   std::ranges::fill(arr, arr + size, value);
+
+    size_t index = 0;
+    try {
+        for (; index < vecSize; ++index) {
+            std::allocator_traits<Alloc>::construct(allocator, arr + index, value);
+        }
+    } catch (...) {
+        for (size_t oldIndex = 0; oldIndex < index; ++oldIndex) {
+            std::allocator_traits<Alloc>::destroy(allocator, arr + oldIndex);
+        }
+        std::allocator_traits<Alloc>::deallocate(allocator, arr, vecCapacity);
+        throw;
+    }
 }
 
 template<typename T, typename Alloc>
 MyVector<T, Alloc>::MyVector(std::initializer_list<T> list)
-        : arr(new T[list.size() * 2])
+        : allocator()
+        , arr(std::allocator_traits<Alloc>::allocate(allocator, list.size() * 2))
         , vecSize(list.size())
         , vecCapacity(list.size() * 2) {
-    std::ranges::copy(list.begin(), list.end(), arr);
+
+    size_t index = 0;
+    try {
+        for (; index < list.size(); ++index) {
+            std::allocator_traits<Alloc>::construct(allocator, arr + index, list[index]);
+        }
+    } catch (...) {
+        for (size_t oldIndex = 0; oldIndex < index; ++oldIndex) {
+            std::allocator_traits<Alloc>::destroy(allocator, arr + oldIndex);
+        }
+        std::allocator_traits<Alloc>::deallocate(allocator, arr, vecCapacity);
+        throw;
+    }
 }
 
 template<typename T, typename Alloc>
 MyVector<T, Alloc>::MyVector(const MyVector& other)
-        : arr(new T[other.vecCapacity])
+        : allocator(other.allocator)
+        , arr(std::allocator_traits<Alloc>::allocate(allocator, other.vecCapacity))
         , vecSize(other.vecSize)
         , vecCapacity(other.vecCapacity) {
-    std::ranges::copy(other.arr, other.arr + other.vecSize, arr);
+
+    size_t index = 0;
+    try {
+        for (; index < vecSize; ++index) {
+            std::allocator_traits<Alloc>::construct(allocator, arr + index, other.arr[index]);
+        }
+    } catch (...) {
+        for (size_t oldIndex = 0; oldIndex < index; ++oldIndex) {
+            std::allocator_traits<Alloc>::destroy(allocator, arr + oldIndex);
+        }
+        std::allocator_traits<Alloc>::deallocate(allocator, arr, other.vecCapacity);
+        throw;
+    }
 }
 
 template<typename T, typename Alloc>
 MyVector<T, Alloc>& MyVector<T, Alloc>::operator = (const MyVector& other) {
     if (this != &other) {
-        T* newArr = new T[other.vecCapacity];
-        std::ranges::copy(other.arr, other.arr + other.vecSize, newArr);
+        T* newArr = std::allocator_traits<Alloc>::allocate(allocator, other.vecCapacity);
 
-        delete[] arr;
+        size_t index = 0;
+        try {
+            for (; index < other.vecSize; ++index) {
+                std::allocator_traits<Alloc>::construct(allocator, newArr + index, other.arr[index]);
+            }
+        } catch (...) {
+            for (size_t oldIndex = 0; oldIndex < index; ++oldIndex) {
+                std::allocator_traits<Alloc>::destroy(allocator, newArr + oldIndex);
+            }
+            std::allocator_traits<Alloc>::deallocate(allocator, newArr, other.vecCapacity);
+            throw;
+        }
+
+        for (size_t i = 0; i < vecSize; ++i) {
+            std::allocator_traits<Alloc>::destroy(allocator, arr + i);
+        }
+        std::allocator_traits<Alloc>::deallocate(allocator, arr, vecCapacity);
+
         arr = newArr;
         vecSize = other.vecSize;
         vecCapacity = other.vecCapacity;
@@ -65,7 +120,13 @@ MyVector<T, Alloc>::MyVector(MyVector&& other) noexcept
 template<typename T, typename Alloc>
 MyVector<T, Alloc>& MyVector<T, Alloc>::operator=(MyVector&& other) noexcept {
     if (this != &other) {
-        delete[] arr;
+        for (size_t i = 0; i < vecSize; ++i) {
+            std::allocator_traits<Alloc>::destroy(allocator, arr + i);
+        }
+
+        if (arr) {
+            std::allocator_traits<Alloc>::deallocate(allocator, arr, vecCapacity);
+        }
 
         arr = other.arr;
         vecSize = other.vecSize;
@@ -144,13 +205,16 @@ void MyVector<T, Alloc>::insert(size_t pos, T value) {
     if (pos > vecSize) {
         THROW_OUT_OF_RANGE("Index out of range.");
     }
+
     if (vecSize >= vecCapacity) {
         size_t newCapacity = vecCapacity == 0 ? 1 : vecCapacity * 2;
         reallocate(newCapacity);
     }
+
     for (size_t i = vecSize; i > pos; --i) {
         arr[i] = arr[i - 1];
     }
+
     arr[pos] = value;
     ++vecSize;
 }
@@ -160,6 +224,7 @@ void MyVector<T, Alloc>::erase(size_t pos) {
     if (pos >= vecSize) {
         THROW_OUT_OF_RANGE("Index out of range.");
     }
+
     for (size_t i = pos; i < vecSize - 1; ++i) {
         arr[i] = arr[i + 1];
     }
@@ -329,7 +394,7 @@ void MyVector<T, Alloc>::checkValidIndex(size_t index) const {
 
 template<typename T, typename Alloc>
 void MyVector<T, Alloc>::reallocate(size_t newCapacity) {
-    T* newArr = allocator.allocate(newCapacity);
+    T* newArr = std::allocator_traits<Alloc>::allocate(allocator, newCapacity);
 
     size_t index = 0;
     try {
@@ -340,14 +405,14 @@ void MyVector<T, Alloc>::reallocate(size_t newCapacity) {
         for (size_t oldIndex = 0; oldIndex < index; ++oldIndex) {
             std::allocator_traits<Alloc>::destroy(allocator, newArr + oldIndex);
         }
-        allocator.deallocate(newArr, newCapacity);
+        std::allocator_traits<Alloc>::deallocate(allocator, newArr, newCapacity);
         throw;
     }
 
     for (size_t i = 0; i < vecSize; ++i) {
         std::allocator_traits<Alloc>::destroy(allocator, arr + i);
     }
-    allocator.deallocate(arr, vecCapacity);
+    std::allocator_traits<Alloc>::deallocate(allocator, arr, vecCapacity);
 
     arr = newArr;
     vecCapacity = newCapacity;
@@ -364,5 +429,8 @@ void MyVector<T, Alloc>::print() const noexcept {
 
 template<typename T, typename Alloc>
 MyVector<T, Alloc>::~MyVector() {
-    delete[] arr;
+    for (size_t i = 0; i < vecSize; ++i) {
+        std::allocator_traits<Alloc>::destroy(allocator, arr + i);
+    }
+    std::allocator_traits<Alloc>::deallocate(allocator, arr, vecCapacity);
 }
