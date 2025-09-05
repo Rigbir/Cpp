@@ -44,8 +44,9 @@ MyVector<T, Alloc>::MyVector(std::initializer_list<T> list)
 
     size_t index = 0;
     try {
-        for (; index < list.size(); ++index) {
-            std::allocator_traits<Alloc>::construct(allocator, arr + index, list[index]);
+        for (const auto& element : list) {
+            std::allocator_traits<Alloc>::construct(allocator, arr + index, element);
+            ++index;
         }
     } catch (...) {
         for (size_t oldIndex = 0; oldIndex < index; ++oldIndex) {
