@@ -15,3 +15,9 @@
 
 ## [Figures](https://github.com/Rigbir/Cpp/tree/main/Figures)
 - #### Implementation of a custom figures class and related functionality.
+
+## [List](https://github.com/Rigbir/Cpp/tree/main/List)
+- #### Implementation of a custom list class and related functionality.
+
+## [Binary Tree](https://github.com/Rigbir/Cpp/tree/main/BinaryTree)
+- #### Implementation of a custom binary tree class and related functionality.
