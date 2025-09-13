@@ -38,4 +38,8 @@ int main() {
 
     tree.print();
     std::cout << std::boolalpha << tree.find(1) << '\n';
+
+    std::cout << "Height: " << tree.height() << '\n';
+    std::cout << "Min value: " << tree.minValue() << '\n';
+    std::cout << "Max value: " << tree.maxValue() << '\n';
 }

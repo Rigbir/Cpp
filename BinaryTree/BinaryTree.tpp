@@ -29,6 +29,27 @@ void BinaryTree<T>::print() const {
 }
 
 template <typename T>
+int BinaryTree<T>::height() const {
+    return heightTree(root);
+}
+
+template <typename T>
+T BinaryTree<T>::minValue() const {
+    if (root == nullptr) {
+        throw std::runtime_error("Tree is Empty");
+    }
+    return findMin(root)->value;
+}
+
+template <typename T>
+T BinaryTree<T>::maxValue() const {
+    if (root == nullptr) {
+        throw std::runtime_error("Tree is Empty");
+    }
+    return findMax(root)->value;
+}
+
+template <typename T>
 BinaryTree<T>::Node::Node(T v): left(nullptr), right(nullptr), value(v) {}
 
 template <typename T>
@@ -83,6 +104,22 @@ typename BinaryTree<T>::Node* BinaryTree<T>::findPredeccesor(Node*& node) {
 }
 
 template <typename T>
+typename BinaryTree<T>::Node* BinaryTree<T>::findMin(Node* node) const {
+    while (node->left != nullptr) {
+        node = node->left;
+    }
+    return node;
+}
+
+template <typename T>
+typename BinaryTree<T>::Node* BinaryTree<T>::findMax(Node* node) const {
+    while (node->right != nullptr) {
+        node = node->right;
+    }
+    return node;
+}
+
+template <typename T>
 bool BinaryTree<T>::searchElement(Node* node, T value) {
     while (node != nullptr) {
         if (value == node->value) {
@@ -114,4 +151,23 @@ void BinaryTree<T>::printTree(Node* node, const std::string& prefix, bool isLeft
     if (node->right) {
         printTree(node->right, childPrefix, false);
     }
+}
+
+template <typename T>
+int BinaryTree<T>::heightTree(Node* node) const {
+    if (node == nullptr) return 0;
+    return 1 + std::max(heightTree(node->left), heightTree(node->right));
+}
+
+template <typename T>
+void BinaryTree<T>::clear(Node*& node) {
+    if (node == nullptr) return;
+    clear(node->left);
+    clear(node->right);
+    delete node;
+}
+
+template <typename T>
+BinaryTree<T>::~BinaryTree() {
+    clear(root);
 }
