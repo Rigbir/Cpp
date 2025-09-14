@@ -28,6 +28,21 @@ void BinaryTree<T>::print() const {
 }
 
 template <typename T>
+void BinaryTree<T>::inOrder() const {
+    return orderIn(root);
+}
+
+template <typename T>
+void BinaryTree<T>::preOrder() const {
+    return orderPre(root);
+}
+
+template <typename T>
+void BinaryTree<T>::postOrder() const {
+    return orderPost(root);
+}
+
+template <typename T>
 int BinaryTree<T>::height() const {
     return heightTree(root);
 }
@@ -49,6 +64,9 @@ T BinaryTree<T>::maxValue() const {
 }
 
 template <typename T>
+BinaryTree<T>::BinaryTree(): root(nullptr) {}
+
+template <typename T>
 BinaryTree<T>::BinaryTree(const BinaryTree& other) {
     if (other == nullptr) return;
     root = copyNode(other.root);
@@ -63,13 +81,13 @@ BinaryTree<T>& BinaryTree<T>::operator = (const BinaryTree& other) {
 }
 
 template <typename T>
-BinaryTree<T>::BinaryTree(BinaryTree&& other) {
+BinaryTree<T>::BinaryTree(BinaryTree&& other) noexcept {
     root = other.root;
     other.root = nullptr;
 }
 
 template <typename T>
-BinaryTree<T>& BinaryTree<T>::operator = (BinaryTree&& other) {
+BinaryTree<T>& BinaryTree<T>::operator = (BinaryTree&& other) noexcept {
     if (this == &other) return *this;
     root = other.root;
     other.root = nullptr;
@@ -114,7 +132,7 @@ void BinaryTree<T>::deleteElement(Node*& node, T value) {
             delete node;
             node = child;
         } else {
-            Node* pred = findPredeccesor(node);
+            Node* pred = findPredecessor(node);
             node->value = pred->value;
             deleteElement(node->left, pred->value);
         }
@@ -153,6 +171,30 @@ typename BinaryTree<T>::Node* BinaryTree<T>::copyNode(Node* node) {
     node->left = copyNode(node->left);
     node->right = copyNode(node->right);
     return newNode;
+}
+
+template <typename T>
+void BinaryTree<T>::orderIn(Node* node) const {
+    if (node == nullptr) return;
+    orderIn(node->left);
+    std::cout << node->value << ' ';
+    orderIn(node->right);
+}
+
+template <typename T>
+void BinaryTree<T>::orderPre(Node* node) const {
+    if (node == nullptr) return;
+    std::cout << node->value << ' ';
+    orderPre(node->left);
+    orderPre(node->right);
+}
+
+template <typename T>
+void BinaryTree<T>::orderPost(Node* node) const {
+    if (node == nullptr) return;
+    orderPost(node->left);
+    orderPost(node->right);
+    std::cout << node->value << ' ';
 }
 
 template <typename T>

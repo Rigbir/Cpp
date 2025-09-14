@@ -19,6 +19,7 @@ private:
     Node* root = nullptr;
 
 public:
+    BinaryTree();
     BinaryTree(const BinaryTree& other);
     BinaryTree& operator = (const BinaryTree& other);
     BinaryTree(BinaryTree&& other) noexcept;
@@ -28,6 +29,9 @@ public:
     void del(T value);
     bool find(T value) const;
     void print() const;
+    void inOrder() const;
+    void preOrder() const;
+    void postOrder() const;
 
     int height() const;
     T minValue() const;
@@ -42,6 +46,10 @@ private:
     static Node* findMin(Node* node);
     static Node* findMax(Node* node);
     Node* copyNode(Node* node);
+
+    void orderIn(Node* node) const;
+    void orderPre(Node* node) const;
+    void orderPost(Node* node) const;
 
     static bool searchElement(Node* node, T value);
     void printTree(Node* node, const std::string& prefix, bool isLeft) const;

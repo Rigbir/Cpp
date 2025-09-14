@@ -42,4 +42,16 @@ int main() {
     std::cout << "Height: " << tree.height() << '\n';
     std::cout << "Min value: " << tree.minValue() << '\n';
     std::cout << "Max value: " << tree.maxValue() << '\n';
+
+    std::cout << "In-Order: ";
+    tree.inOrder();
+    std::cout << '\n';
+
+    std::cout << "Pre-Order: ";
+    tree.preOrder();
+    std::cout << '\n';
+
+    std::cout << "Post-Order: ";
+    tree.postOrder();
+    std::cout << '\n';
 }
