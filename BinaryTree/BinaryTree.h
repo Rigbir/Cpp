@@ -19,10 +19,10 @@ private:
     Node* root = nullptr;
 
 public:
-    // BinaryTree(const BinaryTree& other);
-    // BinaryTree& operator = (const BinaryTree& other);
-    // BinaryTree(BinaryTree&& other) noexcept;
-    // BinaryTree& operator = (BinaryTree&& other) noexcept;
+    BinaryTree(const BinaryTree& other);
+    BinaryTree& operator = (const BinaryTree& other);
+    BinaryTree(BinaryTree&& other) noexcept;
+    BinaryTree& operator = (BinaryTree&& other) noexcept;
 
     void add(T value);
     void del(T value);
@@ -38,9 +38,10 @@ public:
 private:
     void addElement(Node*& node, T value);
     void deleteElement(Node*& node, T value);
-    Node* findPredeccesor(Node*& node);
-    Node* findMin(Node* node) const;
-    Node* findMax(Node* node) const;
+    Node* findPredecessor(Node*& node);
+    static Node* findMin(Node* node);
+    static Node* findMax(Node* node);
+    Node* copyNode(Node* node);
 
     static bool searchElement(Node* node, T value);
     void printTree(Node* node, const std::string& prefix, bool isLeft) const;

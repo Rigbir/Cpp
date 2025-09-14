@@ -4,7 +4,6 @@
 
 #pragma once
 #include <iostream>
-#include <climits>
 
 template <typename T>
 void BinaryTree<T>::add(T value) {
@@ -47,6 +46,34 @@ T BinaryTree<T>::maxValue() const {
         throw std::runtime_error("Tree is Empty");
     }
     return findMax(root)->value;
+}
+
+template <typename T>
+BinaryTree<T>::BinaryTree(const BinaryTree& other) {
+    if (other == nullptr) return;
+    root = copyNode(other.root);
+}
+
+template <typename T>
+BinaryTree<T>& BinaryTree<T>::operator = (const BinaryTree& other) {
+    if (this == &other) return *this;
+    clear(root);
+    root = copyNode(other.root);
+    return *this;
+}
+
+template <typename T>
+BinaryTree<T>::BinaryTree(BinaryTree&& other) {
+    root = other.root;
+    other.root = nullptr;
+}
+
+template <typename T>
+BinaryTree<T>& BinaryTree<T>::operator = (BinaryTree&& other) {
+    if (this == &other) return *this;
+    root = other.root;
+    other.root = nullptr;
+    return *this;
 }
 
 template <typename T>
@@ -95,7 +122,7 @@ void BinaryTree<T>::deleteElement(Node*& node, T value) {
 }
 
 template <typename T>
-typename BinaryTree<T>::Node* BinaryTree<T>::findPredeccesor(Node*& node) {
+typename BinaryTree<T>::Node* BinaryTree<T>::findPredecessor(Node*& node) {
     Node* pred = node->left;
     while (pred->right) {
         pred = pred->right;
@@ -104,7 +131,7 @@ typename BinaryTree<T>::Node* BinaryTree<T>::findPredeccesor(Node*& node) {
 }
 
 template <typename T>
-typename BinaryTree<T>::Node* BinaryTree<T>::findMin(Node* node) const {
+typename BinaryTree<T>::Node* BinaryTree<T>::findMin(Node* node) {
     while (node->left != nullptr) {
         node = node->left;
     }
@@ -112,11 +139,20 @@ typename BinaryTree<T>::Node* BinaryTree<T>::findMin(Node* node) const {
 }
 
 template <typename T>
-typename BinaryTree<T>::Node* BinaryTree<T>::findMax(Node* node) const {
+typename BinaryTree<T>::Node* BinaryTree<T>::findMax(Node* node) {
     while (node->right != nullptr) {
         node = node->right;
     }
     return node;
+}
+
+template <typename T>
+typename BinaryTree<T>::Node* BinaryTree<T>::copyNode(Node* node) {
+    if (node == nullptr) return nullptr;
+    Node* newNode = new Node(node->value);
+    node->left = copyNode(node->left);
+    node->right = copyNode(node->right);
+    return newNode;
 }
 
 template <typename T>
