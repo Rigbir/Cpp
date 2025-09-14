@@ -1,62 +1,62 @@
 # BinaryTree
 
-`BinaryTree` is a custom implementation of a **binary search tree (BST)** template class.  
-It provides functionality for adding, searching, deleting elements, and printing the tree in a human-readable hierarchical format.  
+`BinaryTree` is a custom implementation of a **binary search tree** (BST) that stores elements of type `T` in a hierarchical structure. The class manually manages nodes, dynamic memory, element insertion, deletion, traversal, and other common tree operations without relying on standard containers.
 
----
+## Node Structure
 
-## Implemented Functionality
+- **Node**: Represents a tree node containing a value of type `T` and pointers to the left and right child nodes (`left` and `right`). Each node is created via a constructor `Node(T value)`.
 
-### Node Structure
-- Each `Node` contains:
-    - `T value`: Stored value of the node.
-    - `Node* left`: Pointer to the left child.
-    - `Node* right`: Pointer to the right child.
-- A constructor `explicit Node(T v)` initializes the node with the given value.
+## Constructors, Destructor, and Assignment Operators
 
----
+- **Default Constructor**: Initializes an empty tree with `root = nullptr`.
+- **Copy Constructor**: Creates a deep copy of another `BinaryTree` instance, duplicating all nodes.
+- **Copy Assignment Operator**: Replaces the current tree with a deep copy of another tree.
+- **Move Constructor (`noexcept`)**: Transfers ownership of nodes from another tree, leaving it empty.
+- **Move Assignment Operator (`noexcept`)**: Replaces the current tree by transferring nodes from another tree.
+- **Destructor**: Frees all dynamically allocated nodes and cleans up the tree.
 
-### Internal Utilities
+## Modifiers
 
-- **`addElement(Node*& node, T value)`**  
-  Recursive helper for `add()`. Finds the correct position and inserts a new node.
+- `add(T value)`: Inserts a new element into the tree, maintaining BST property.
+- `del(T value)`: Deletes an element from the tree if it exists.
+- `clear()`: Removes all nodes, leaving the tree empty.
 
-- **`deleteElement(Node*& node, T value)`**  
-  Recursive helper for `del()`. Implements the full BST deletion algorithm.
+## Element Access and Queries
 
-- **`findPredeccesor(Node*& node)`**  
-  Locates the inorder predecessor (maximum value in the left subtree).
+- `find(T value) const`: Returns `true` if the element exists in the tree, otherwise `false`.
+- `minValue() const`: Returns the minimum value stored in the tree.
+- `maxValue() const`: Returns the maximum value stored in the tree.
+- `height() const`: Returns the height of the tree (longest path from root to a leaf).
 
-- **`searchElement(Node* node, T value)`**  
-  Static recursive search helper used by `find()`.
+## Traversal
 
-- **`printTree(Node* node, const std::string& prefix, bool isLeft) const`**  
-  Recursive helper for `print()`.  
-  Uses `prefix` and `isLeft` to generate proper ASCII indentation and branch symbols (`├──`, `└──`, `│`).
+- `inOrder() const`: Performs in-order traversal (left-root-right) and prints elements.
+- `preOrder() const`: Performs pre-order traversal (root-left-right) and prints elements.
+- `postOrder() const`: Performs post-order traversal (left-right-root) and prints elements.
 
----
+## Debugging and Printing
 
-## Example Usage
+- `print() const`: Visualizes the tree structure in a human-readable format.
 
-```cpp
-#include "BinaryTree.h"
-#include <iostream>
+## BinaryTree Methods Table
 
-int main() {
-  BinaryTree<int> tree;
+| Category                     | Function / Operator                                      | Description |
+|-------------------------------|----------------------------------------------------------|-------------|
+| **Constructors**             | `BinaryTree()`                                           | Default constructor, creates an empty tree. |
+|                               | `BinaryTree(const BinaryTree& other)`                   | Copy constructor. Deep copies another tree. |
+|                               | `BinaryTree(BinaryTree&& other) noexcept`              | Move constructor. Transfers ownership of nodes. |
+| **Destructor**                | `~BinaryTree()`                                         | Deletes all nodes. |
+| **Assignment**                | `operator=(const BinaryTree& other)`                    | Copy assignment operator. |
+|                               | `operator=(BinaryTree&& other) noexcept`               | Move assignment operator. |
+| **Modifiers**                 | `add(T value)`                                          | Inserts a new element into the tree. |
+|                               | `del(T value)`                                          | Deletes a node with the given value. |
+|                               | `clear()`                                               | Removes all nodes from the tree. |
+| **Element Access / Queries**  | `find(T value) const`                                   | Returns `true` if the element exists in the tree. |
+|                               | `minValue() const`                                      | Returns the minimum value stored in the tree. |
+|                               | `maxValue() const`                                      | Returns the maximum value stored in the tree. |
+|                               | `height() const`                                        | Returns the height of the tree. |
+| **Traversal**                 | `inOrder() const`                                       | In-order traversal (left-root-right) and prints elements. |
+|                               | `preOrder() const`                                      | Pre-order traversal (root-left-right) and prints elements. |
+|                               | `postOrder() const`                                     | Post-order traversal (left-right-root) and prints elements. |
+| **Debugging / Printing**      | `print() const`                                         | Visualizes the tree structure in a human-readable format. |
 
-  tree.add(5);
-  tree.add(3);
-  tree.add(6);
-  tree.add(1);
-  tree.add(4);
-
-  tree.print();
-
-  std::cout << std::boolalpha << tree.find(1) << '\n'; // true
-  
-  tree.del(1);
-  tree.print();
-  
-  std::cout << std::boolalpha << tree.find(1) << '\n'; // false
-}

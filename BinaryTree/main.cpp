@@ -4,25 +4,9 @@
 
 #include "BinaryTree.h"
 #include <iostream>
-#include <random>
-
-struct A {
-    int b;
-    int c;
-};
 
 int main() {
     BinaryTree<int> tree;
-
-    /*
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(1,10);
-
-    for (size_t i = 0; i < 5; ++i) {
-        tree.add(dist(gen));
-    }
-    */
 
     tree.add(5);
     tree.add(3);
