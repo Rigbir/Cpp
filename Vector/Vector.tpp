@@ -151,11 +151,27 @@ MyVector<T, Alloc>& MyVector<T, Alloc>::operator=(MyVector&& other) noexcept {
 
 template<typename T, typename Alloc>
 void MyVector<T, Alloc>::push_back(const T& value) {
+    emplace_back(value);
+}
+
+template<typename T, typename Alloc>
+void MyVector<T, Alloc>::push_back(T&& value) {
+    emplace_back(std::move(value));
+}
+
+template<typename T, typename Alloc>
+template<typename... Args>
+void MyVector<T, Alloc>::emplace_back(Args&&... args) {
     if (vecSize == vecCapacity) {
-        size_t newCapacity = (vecCapacity == 0) ? 1 : vecCapacity * 2;
+        const size_t newCapacity = (vecCapacity == 0) ? 1 : vecCapacity * 2;
         reallocate(newCapacity);
     }
-    arr[vecSize++] = value;
+    std::allocator_traits<Alloc>::construct(
+        allocator,
+        arr + vecSize,
+        std::forward<Args>(args)...
+    );
+    ++vecSize;
 }
 
 template<typename T, typename Alloc>
@@ -170,10 +186,10 @@ void MyVector<T, Alloc>::clear() noexcept {
 }
 
 template<typename T, typename Alloc>
-void MyVector<T, Alloc>::resize(size_t newSize) {
+void MyVector<T, Alloc>::resize(const size_t newSize) {
     if (newSize > vecSize) {
         if (newSize > vecCapacity) {
-            size_t newCapacity = newSize * 2;
+            const size_t newCapacity = newSize * 2;
             reallocate(newCapacity);
         }
         for (size_t i = vecSize; i < newSize; ++i) {
@@ -184,7 +200,7 @@ void MyVector<T, Alloc>::resize(size_t newSize) {
 }
 
 template<typename T, typename Alloc>
-void MyVector<T, Alloc>::reserve(size_t newCapacity) {
+void MyVector<T, Alloc>::reserve(const size_t newCapacity) {
     if (newCapacity <= vecCapacity) {
         return;
     }
@@ -230,7 +246,7 @@ void MyVector<T, Alloc>::insert(size_t pos, T value) {
 }
 
 template<typename T, typename Alloc>
-void MyVector<T, Alloc>::erase(size_t pos) {
+void MyVector<T, Alloc>::erase(const size_t pos) {
     if (pos >= vecSize) {
         THROW_OUT_OF_RANGE("Index out of range.");
     }
@@ -409,7 +425,8 @@ void MyVector<T, Alloc>::reallocate(size_t newCapacity) {
     size_t index = 0;
     try {
         for (; index < vecSize; ++index) {
-            std::allocator_traits<Alloc>::construct(allocator, newArr + index, arr[index]);
+            std::allocator_traits<Alloc>::construct(allocator, newArr + index,
+                                                    std::move_if_noexcept(arr[index]));
         }
     } catch (...) {
         for (size_t oldIndex = 0; oldIndex < index; ++oldIndex) {
