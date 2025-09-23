@@ -52,9 +52,7 @@ public:
     MyVector& operator = (MyVector&& other) noexcept;
     ~MyVector();
 
-    template <typename... Args>
-    void emplace_back(Args&&... args);
-
+    void emplace_back(auto&&... args);
     void push_back(const T& value);
     void push_back(T&& value);
     void pop_back();

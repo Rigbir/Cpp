@@ -160,8 +160,7 @@ void MyVector<T, Alloc>::push_back(T&& value) {
 }
 
 template<typename T, typename Alloc>
-template<typename... Args>
-void MyVector<T, Alloc>::emplace_back(Args&&... args) {
+void MyVector<T, Alloc>::emplace_back(auto&&... args) {
     if (vecSize == vecCapacity) {
         const size_t newCapacity = (vecCapacity == 0) ? 1 : vecCapacity * 2;
         reallocate(newCapacity);
@@ -169,7 +168,7 @@ void MyVector<T, Alloc>::emplace_back(Args&&... args) {
     std::allocator_traits<Alloc>::construct(
         allocator,
         arr + vecSize,
-        std::forward<Args>(args)...
+        std::forward<decltype(args)>(args)...
     );
     ++vecSize;
 }
