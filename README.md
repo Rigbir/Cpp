@@ -21,3 +21,6 @@
 
 ## [Binary Tree](https://github.com/Rigbir/Cpp/tree/main/BinaryTree)
 - #### Implementation of a custom binary tree class and related functionality.
+
+## [Unique_ptr](https://github.com/Rigbir/Cpp/tree/main/Unique_ptr)
+- #### Implementation of a custom unique_ptr class and related functionality.
