@@ -24,3 +24,6 @@
 
 ## [Unique_ptr](https://github.com/Rigbir/Cpp/tree/main/Unique_ptr)
 - #### Implementation of a custom unique_ptr class and related functionality.
+
+## [LRU_Cache](https://github.com/Rigbir/Cpp/tree/main/LruCache)
+- #### Implementation of a custom lru_cache class and related functionality.
