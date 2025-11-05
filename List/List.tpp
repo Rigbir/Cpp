@@ -221,7 +221,9 @@ void MyList<T>::pop_front() {
 
     Node* current = head;
     head = head->next;
-    head->prev = nullptr;
+    if (head != nullptr) {
+        head->prev = nullptr;
+    }
 
     delete current;
 }
@@ -283,28 +285,125 @@ void MyList<T>::swap(MyList<T>& other) noexcept {
 
 template<typename T>
 void MyList<T>::merge(MyList<T>& other) {
+    if (other.head == nullptr) {
+        return;
+    }
 
+    if (head == nullptr) {
+        head = other.head;
+        other.head = nullptr;
+        return;
+    }
+
+    Node* current = head;
+    Node* otherCurrent = other.head;
+    Node* mergedHead = nullptr;
+    Node* mergedTail = nullptr;
+
+    if (current->_value <= otherCurrent->_value) {
+        mergedHead = current;
+        mergedTail = current;
+        current = current->next;
+    } else {
+        mergedHead = otherCurrent;
+        mergedTail = otherCurrent;
+        otherCurrent = otherCurrent->next;
+    }
+
+    while (current != nullptr && otherCurrent != nullptr) {
+        if (current->_value <= otherCurrent->_value) {
+            mergedTail->next = current;
+            current->prev = mergedTail;
+            mergedTail = current;
+            current = current->next;
+        } else {
+            mergedTail->next = otherCurrent;
+            otherCurrent->prev = mergedTail;
+            mergedTail = otherCurrent;
+            otherCurrent = otherCurrent->next;
+        }
+    }
+
+    if (current != nullptr) {
+        mergedTail->next = current;
+        current->prev = mergedTail;
+    } else if (otherCurrent != nullptr) {
+        mergedTail->next = otherCurrent;
+        otherCurrent->prev = mergedTail;
+    }
+
+    head = mergedHead;
+    other.head = nullptr;
 }
 
 template<typename T>
 void MyList<T>::splice(Iterator pos, MyList<T>& other) {
-    Node* nodePtr = pos.ptr;
-    Node* current = head;
-
-    while (current->next != nodePtr) {
-        current = current->next;
+    if (other.head == nullptr) {
+        return;
     }
 
-    Node* nodeNext = current->next;
-    current->next = other.head;
-    other.head->prev = current;
+    Node* insertPos = pos.ptr;
 
-    Node* otherCurrent = other.head;
-    while (otherCurrent->next != nullptr) {
-        otherCurrent = otherCurrent->next;
+    if (head == nullptr) {
+        head = other.head;
+        other.head = nullptr;
+        return;
     }
 
-    otherCurrent->next = nodeNext;
+    if (insertPos == head) {
+        Node* lastOther = other.head;
+        while (lastOther->next != nullptr) {
+            lastOther = lastOther->next;
+        }
+
+        lastOther->next = head;
+        head->prev = lastOther;
+        head = other.head;
+        other.head = nullptr;
+        return;
+    }
+
+    if (insertPos == nullptr) {
+        Node* lastCurrent = head;
+        while (lastCurrent->next != nullptr) {
+            lastCurrent = lastCurrent->next;
+        }
+
+        lastCurrent->next = other.head;
+        other.head->prev = lastCurrent;
+        other.head = nullptr;
+        return;
+    }
+
+    Node* prevNode = head;
+    while (prevNode != nullptr && prevNode->next != insertPos) {
+        prevNode = prevNode->next;
+    }
+
+    if (prevNode == nullptr) {
+        Node* lastCurrent = head;
+        while (lastCurrent->next != nullptr) {
+            lastCurrent = lastCurrent->next;
+        }
+
+        lastCurrent->next = other.head;
+        other.head->prev = lastCurrent;
+        other.head = nullptr;
+        return;
+    }
+
+    Node* lastOther = other.head;
+    while (lastOther->next != nullptr) {
+        lastOther = lastOther->next;
+    }
+
+    prevNode->next = other.head;
+    other.head->prev = prevNode;
+
+    lastOther->next = insertPos;
+    insertPos->prev = lastOther;
+
+    other.head = nullptr;
 }
 
 template<typename T>
@@ -469,7 +568,7 @@ MyList<T>& MyList<T>::operator = (const MyList<T>& other) {
 }
 
 template<typename T>
-bool MyList<T>::operator == (const MyList<T>& other) {
+bool MyList<T>::operator == (const MyList<T>& other) const {
     Node* first = this->head;
     Node* second = other.head;
 
@@ -486,12 +585,12 @@ bool MyList<T>::operator == (const MyList<T>& other) {
 }
 
 template<typename T>
-bool MyList<T>::operator != (const MyList<T>& other) {
+bool MyList<T>::operator != (const MyList<T>& other) const {
     return !(*this == other);
 }
 
 template<typename T>
-bool MyList<T>::operator < (const MyList<T>& other) {
+bool MyList<T>::operator < (const MyList<T>& other) const {
     Node* first = this->head;
     Node* second = other.head;
 
@@ -507,17 +606,17 @@ bool MyList<T>::operator < (const MyList<T>& other) {
 }
 
 template<typename T>
-bool MyList<T>::operator > (const MyList<T>& other) {
+bool MyList<T>::operator > (const MyList<T>& other) const {
     return other < *this;
 }
 
 template<typename T>
-bool MyList<T>::operator <= (const MyList<T>& other) {
+bool MyList<T>::operator <= (const MyList<T>& other) const {
     return !(other < *this);
 }
 
 template<typename T>
-bool MyList<T>::operator >= (const MyList<T>& other) {
+bool MyList<T>::operator >= (const MyList<T>& other) const {
     return !(*this < other);
 }
 

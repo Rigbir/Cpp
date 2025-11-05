@@ -68,12 +68,12 @@ public:
     [[nodiscard]] size_t max_size() const;
 
     MyList<T>& operator = (const MyList<T>& other);
-    bool operator == (const MyList<T>& other);
-    bool operator != (const MyList<T>& other);
-    bool operator < (const MyList<T>& other);
-    bool operator > (const MyList<T>& other);
-    bool operator <= (const MyList<T>& other);
-    bool operator >= (const MyList<T>& other);
+    bool operator == (const MyList<T>& other) const;
+    bool operator != (const MyList<T>& other) const;
+    bool operator < (const MyList<T>& other) const;
+    bool operator > (const MyList<T>& other) const;
+    bool operator <= (const MyList<T>& other) const;
+    bool operator >= (const MyList<T>& other) const;
 
     Iterator begin();
     Iterator cbegin() const;
