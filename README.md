@@ -27,3 +27,6 @@
 
 ## [LRU_Cache](https://github.com/Rigbir/Cpp/tree/main/LruCache)
 - #### Implementation of a custom lru_cache class and related functionality.
+- 
+## [Stack](https://github.com/Rigbir/Cpp/tree/main/Stack)
+- #### Implementation of a custom stack class and related functionality.
