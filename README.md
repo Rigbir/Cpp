@@ -30,3 +30,6 @@
 
 ## [Stack](https://github.com/Rigbir/Cpp/tree/main/Stack)
 - #### Implementation of a custom stack class and related functionality.
+
+## [Queue](https://github.com/Rigbir/Cpp/tree/main/Queue)
+- #### Implementation of a custom stack class and related functionality.
