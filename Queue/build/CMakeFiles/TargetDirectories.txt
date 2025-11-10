@@ -1,0 +1,3 @@
+/Users/marat/Cpp/Queue/build/CMakeFiles/Queue.dir
+/Users/marat/Cpp/Queue/build/CMakeFiles/edit_cache.dir
+/Users/marat/Cpp/Queue/build/CMakeFiles/rebuild_cache.dir
