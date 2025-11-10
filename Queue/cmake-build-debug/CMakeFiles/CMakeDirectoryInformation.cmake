@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/Users/marat/Cpp/Queue")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/Users/marat/Cpp/Queue/build")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/Users/marat/Cpp/Queue/cmake-build-debug")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)
