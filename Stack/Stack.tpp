@@ -87,7 +87,7 @@ void Stack<T, Alloc>::emplace(Args&&... args) {
     Node_Alloc node_alloc(alloc_);
     
     Node* new_node = node_alloc.allocate(1);
-    std::allocator_traits<Alloc>::construct(alloc_, &new_node->value, std::forward<Args>(args)...);
+    std::allocator_traits<Node_Alloc>::construct(node_alloc, &new_node->value, std::forward<Args>(args)...);
     new_node->next = head_;
     head_ = new_node;
     ++size_;
