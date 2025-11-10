@@ -40,6 +40,7 @@ private:
         T value;
         Node* next;
         Node(const T& value, Node* next): value(value), next(next) {}
+        Node(T&& value, Node* next): value(std::move(value)), next(next) {}
     };
 
     Node* head_;
