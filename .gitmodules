@@ -1,0 +1,3 @@
+[submodule "backend_tasks"]
+	path = backend_tasks
+	url = https://github.com/Rigbir/backend_tasks
