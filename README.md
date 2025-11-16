@@ -7,5 +7,5 @@ Collection of C++17/20 projects covering data structures and backend development
 ### [data_structures](https://github.com/Rigbir/Cpp/tree/main/data_structures)
 Custom implementations of fundamental data structures. 
 
-### [backend_tasks](https://github.com/Rigbir/Cpp/tree/main/backend_tasks)
+### [backend_tasks](https://github.com/Rigbir/backend_tasks)
 Backend development projects. PostgreSQL databases, multithreading utilities, network servers (TCP/HTTP/WebSocket), Redis integration, and Apache Kafka integration.
