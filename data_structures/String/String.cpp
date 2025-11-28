@@ -5,7 +5,7 @@
 #include "String.h"
 #include <algorithm>
 #include <string_view>
-#include <complex>
+#include <cstring>
 
 #define THROW_OUT_OF_RANGE(msg) throw std::out_of_range(std::string(msg) + \
 " [File: " + __FILE__ + ", Line: " + std::to_string(__LINE__) + "]")
@@ -67,14 +67,8 @@ MyString::MyString(MyString&& other) noexcept
 
 MyString& MyString::operator = (const MyString& other) {
     if (this != &other) {
-        char* newArr = new char[other.StrCapacity_];
-        std::ranges::copy(other.arr, other.arr + other.StrSize_, newArr);
-        newArr[other.StrSize_] = '\0';
-
-        delete[] arr;
-        arr = newArr;
-        StrSize_ = other.StrSize_;
-        StrCapacity_ = other.StrCapacity_;
+        MyString temp(other);
+        swap(temp);
     }
     return *this;
 }
@@ -112,12 +106,22 @@ const char& MyString::at(size_t index) const {
     return arr[index];
 }
 
-char& MyString::front() const {
+char& MyString::front() {
     checkEmpty();
     return arr[0];
 }
 
-char &MyString::back() const {
+const char& MyString::front() const {
+    checkEmpty();
+    return arr[0];
+}
+
+char& MyString::back() {
+    checkEmpty();
+    return arr[StrSize_ - 1];
+}
+
+const char& MyString::back() const {
     checkEmpty();
     return arr[StrSize_ - 1];
 }
@@ -139,6 +143,7 @@ void MyString::push_back(char c) {
 }
 
 void MyString::pop_back() {
+    checkEmpty();
     arr[StrSize_--] = '\0';
 }
 
@@ -148,8 +153,8 @@ void MyString::resize(size_t newSize) {
         reallocate(newCapacity);
     }
 
-    for (size_t i = 0; i < newSize; ++i) {
-        arr[i] = '0';
+    if (newSize > StrSize_) {
+        std::memset(arr + StrSize_, '\0', newSize - StrSize_);
     }
 
     StrSize_ = newSize;
@@ -157,13 +162,21 @@ void MyString::resize(size_t newSize) {
 }
 
 void MyString::reserve(size_t newCapacity) {
-    StrCapacity_ = newCapacity;
+    if (newCapacity > StrCapacity_) {
+        reallocate(newCapacity);
+    }
 }
 
 void MyString::shrink_to_fit() {
     if (StrCapacity_ > StrSize_) {
         reallocate(StrSize_);
     }
+}
+
+void MyString::swap(MyString& other) noexcept {
+    std::swap(arr, other.arr);
+    std::swap(StrSize_, other.StrSize_);
+    std::swap(StrCapacity_, other.StrCapacity_);
 }
 
 void MyString::insert(size_t pos, char c) {
@@ -174,9 +187,7 @@ void MyString::insert(size_t pos, char c) {
         reallocate(newCapacity);
     }
 
-    for (size_t i = StrSize_; i > pos; --i) {
-        arr[i] = arr[i - 1];
-    }
+    std::memmove(arr + pos + 1, arr + pos, StrSize_ - pos);
 
     arr[pos] = c;
     ++StrSize_;
@@ -186,56 +197,40 @@ void MyString::insert(size_t pos, char c) {
 void MyString::erase(size_t pos) {
     validIndex(pos);
 
-    for (size_t i = pos; i < StrSize_; ++i) {
-        arr[i] = arr[i + 1];
-    }
+    std::memmove(arr + pos, arr + pos + 1, StrSize_ - pos);
 
     --StrSize_;
     arr[StrSize_] = '\0';
 }
 
 MyString MyString::operator + (const MyString& other) const {
-    size_t totalSize = this->StrSize_ + other.StrSize_;
+    size_t totalSize = StrSize_ + other.StrSize_;
 
     MyString newString(totalSize);
 
-    for (size_t i = 0; i < this->StrSize_; ++i) {
-        newString[i] = this->arr[i];
-    }
+    std::memcpy(newString.arr, arr, StrSize_);
+    std::memcpy(newString.arr + StrSize_, other.arr, other.StrSize_);
+    newString.StrSize_ = totalSize;
 
-    for (size_t i = 0; i < other.StrSize_; ++i) {
-        newString[i + this->StrSize_] = other.arr[i];
-    }
-
-    newString[totalSize] = '\0';
     return newString;
 }
 
 MyString& MyString::operator += (const MyString& other) {
-    if (other.StrSize_ > (this->StrCapacity_ - this->StrSize_)) {
-        size_t newCapacity = this->StrSize_ + other.StrSize_ + 1;
+    if (StrSize_ + other.StrSize_ >= StrCapacity_) {
+        size_t newCapacity = StrSize_ + other.StrSize_ + 1;
         reallocate(newCapacity);
     }
 
-    for (size_t i = 0; i < other.StrSize_; ++i) {
-        this->arr[i + this->StrSize_] = other.arr[i];
-    }
+    std::memcpy(arr + StrSize_, other.arr, other.StrSize_);
+    StrSize_ += other.StrSize_;
+    arr[StrSize_] = '\0';
 
-    this->StrSize_ += other.StrSize_;
-    this->arr[StrSize_] = '\0';
     return *this;
 }
 
 bool MyString::operator == (const MyString& other) const {
-    if (this->StrSize_ != other.StrSize_) return false;
-
-    for (size_t i = 0; i < this->StrSize_; ++i) {
-        if (this->arr[i] != other.arr[i]) {
-            return false;
-        }
-    }
-
-    return true;
+    if (StrSize_ != other.StrSize_) return false;
+    return std::memcmp(arr, other.arr, StrSize_) == 0;
 }
 
 bool MyString::operator != (const MyString& other) const {
@@ -243,14 +238,14 @@ bool MyString::operator != (const MyString& other) const {
 }
 
 bool MyString::operator < (const MyString& other) const {
-    size_t minLength = std::min(this->StrSize_, other.StrSize_);
+    size_t minLength = std::min(StrSize_, other.StrSize_);
 
-    for (size_t i = 0; i < minLength; ++i) {
-        if (this->arr[i] < other.arr[i]) return true;
-        if (this->arr[i] > other.arr[i]) return false;
+    int cmp = std::memcmp(arr, other.arr, minLength);
+    if (cmp != 0) {
+        return cmp < 0;
     }
 
-    return this->StrSize_ < other.StrSize_;
+    return StrSize_ < other.StrSize_;
 }
 
 bool MyString::operator > (const MyString& other) const {
@@ -268,22 +263,19 @@ bool MyString::operator >= (const MyString& other) const {
 MyString MyString::substr(size_t pos, size_t len) const {
     validIndex(pos);
 
-    if (pos + len > this->StrSize_) {
+    if (pos + len > StrSize_) {
         THROW_OUT_OF_RANGE("SubString out of range String.");
     }
 
     MyString substring(len);
-
-    for (size_t i = 0; i < len; ++i) {
-        substring.arr[i] = this->arr[pos + i];
-    }
+    std::memcpy(substring.arr, arr + pos, len);
 
     return substring;
 }
 
 size_t MyString::find(char c, size_t start) const {
-    for (size_t i = start; i < this->StrSize_; ++i) {
-            if (this->arr[i] == c) {
+    for (size_t i = start; i < StrSize_; ++i) {
+            if (arr[i] == c) {
                 return i;
             }
     }
@@ -293,11 +285,11 @@ size_t MyString::find(char c, size_t start) const {
 
 size_t MyString::find(const MyString& other, size_t start) const {
     if (other.StrSize_ == 0) return start;
-    if ((other.StrSize_ + start) > this->StrSize_) return npos;
+    if ((other.StrSize_ + start) > StrSize_) return npos;
     validIndex(start);
 
-    for (size_t i = start; i <= (this->StrSize_ - other.StrSize_); ++i) {
-        char* first = &(this->arr[i]);
+    for (size_t i = start; i <= (StrSize_ - other.StrSize_); ++i) {
+        char* first = &(arr[i]);
         char* second = &(other.arr[0]);
 
         if (*first == *second) {
@@ -390,9 +382,7 @@ void MyString::validIndex(size_t index) const {
 void MyString::reallocate(size_t newCapacity) {
     char* newArr = new char[newCapacity + 1];
 
-    for (size_t i = 0; i < StrSize_; ++i) {
-        newArr[i] = arr[i];
-    }
+    std::memcpy(newArr, arr, StrSize_);
     newArr[StrSize_] = '\0';
 
     delete[] arr;

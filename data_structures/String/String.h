@@ -3,6 +3,7 @@
 //
 
 #pragma once
+
 #include <initializer_list>
 #include <iostream>
 
@@ -25,8 +26,10 @@ public:
     const char& operator [] (size_t index) const;
     [[nodiscard]] char& at(size_t index);
     [[nodiscard]] const char& at(size_t index) const;
-    [[nodiscard]] char& front() const;
-    [[nodiscard]] char& back() const;
+    [[nodiscard]] char& front();
+    [[nodiscard]] const char& front() const;
+    [[nodiscard]] char& back();
+    [[nodiscard]] const char& back() const;
 
     void clear();
     void push_back(char c);
@@ -34,6 +37,7 @@ public:
     void resize(size_t newSize);
     void reserve(size_t newCapacity);
     void shrink_to_fit();
+    void swap(MyString& other) noexcept;
 
     void insert(size_t pos, char c);
     void erase(size_t pos);
