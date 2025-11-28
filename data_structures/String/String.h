@@ -6,6 +6,7 @@
 
 #include <initializer_list>
 #include <iostream>
+#include <memory>
 
 class MyString {
 public:
@@ -70,9 +71,25 @@ public:
     friend std::istream& operator >> (std::istream& is, MyString& str);
 
 private:
-    char* arr;
-    size_t StrSize_;
-    size_t StrCapacity_;
+    struct Data {
+        char* arr;
+        size_t StrSize_;
+        size_t StrCapacity_;
+
+        Data(size_t capacity);
+        Data(const char* str, size_t size);
+        ~Data();
+
+        Data(const Data& other) = delete;
+        Data& operator = (const Data& other) = delete;
+    };
+
+    std::shared_ptr<Data> data_;
+
+    void detach();
+    char* get_arr() const;
+    size_t get_size() const;
+    size_t get_capacity() const;
 
     static size_t strlen(const char* start);
     void checkEmpty() const;
