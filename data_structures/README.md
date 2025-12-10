@@ -33,3 +33,6 @@
 
 ## [Queue](https://github.com/Rigbir/Cpp/tree/main/data_structures/Queue)
 - #### Implementation of a custom queue class and related functionality.
+
+## [SFINAE](https://github.com/Rigbir/Cpp/tree/main/data_structures/SFINAE)
+- #### Implementation of a SFINAE methods and related functionality.
